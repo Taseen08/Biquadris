@@ -4,7 +4,6 @@
 #include "observer.h"
 //#include "tileinfo.h"
 
-
 class Subject {
 	protected:
 		std::vector<Observer *> observers;
