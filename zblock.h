@@ -5,7 +5,6 @@
 #include "block.h"
 using namespace std;
 
-
 class zblock : public Block {
 	public:
 		zblock(bool heavy);

@@ -5,7 +5,6 @@
 #include "block.h"
 using namespace std;
 
-
 class tblock : public Block {
 	public:
 		tblock(bool heavy);
