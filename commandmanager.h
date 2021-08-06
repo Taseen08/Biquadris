@@ -9,6 +9,7 @@ using namespace std;
 
 class CommandManager {
 	private:
+        bool isPrefix(string original, string prefix);
 		vector<string> commands =
 	       		{"quit", "left", "right", "down", "clockwise", "counterclockwise", 
 			"drop", "levelup", "leveldown", "norandom", "random",

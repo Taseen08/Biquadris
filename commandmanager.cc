@@ -4,7 +4,7 @@ using namespace std;
 
 
 
-bool isPrefix(string original, string prefix) {
+bool CommandManager::isPrefix(string original, string prefix) {
 	if (original.find(prefix) == 0) {
 		return true;
 	} else {
@@ -13,7 +13,7 @@ bool isPrefix(string original, string prefix) {
 }
 
 
-int CommandInterpreter::multiplier(string in) {
+int CommandManager::multiplier(string in) {
 	stringstream ss;
 	ss << in;
 	int mult;
@@ -66,7 +66,7 @@ string CommandManager::commandDetector(string in) {
 
 
 
-void CommandInterpreter::renamer(string oldcommand, string newcommand) {
+void CommandManager::renamer(string oldcommand, string newcommand) {
 	int len = renamed.size();
 	
 	for (int i = 0; i < len; ++i) {
