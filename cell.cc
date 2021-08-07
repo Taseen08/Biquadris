@@ -3,7 +3,7 @@
 #include "subject.h"
 #include "cell.h"
 
-Cell::Cell(int x, int y, Board *mainBoard, bool occupied, char state){
+Cell::Cell(int x, int y, Grid *mainBoard, bool occupied, char state){
     this->x = x;
     this->y = y;
     this->occupied = occupied;
@@ -50,7 +50,6 @@ void Cell::unsetState(){
     this->occupied=false;
     this->notifyObservers();
 }
-
-Board * Cell::getBoard(){
+Grid * Cell::getGrid(){
     return this->mainBoard;
 }

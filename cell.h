@@ -3,16 +3,16 @@
 #include "subject.h"
 #include "observer.h"
 
-class Board;
+class Grid;
 
 class Cell : public Subject {
     int x;
     int y;
     bool occupied;
     char state;
-    Board *mainBoard;
+    Grid *mainBoard;
     public:
-        Cell(int x, int y,Board *mainBoard,bool occupied=false, char state='.');
+        Cell(int x, int y,Grid *mainBoard,bool occupied=false, char state='.');
 		void notifyObservers() override;
 		void setX(int x);
 		void setY(int y);
@@ -22,7 +22,7 @@ class Cell : public Subject {
         char getState();
         void setState(char myState);
         void unsetState();
-        Board* getBoard();
+        Grid* getGrid();
 };
 
 #endif
