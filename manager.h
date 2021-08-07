@@ -18,7 +18,9 @@ class Manager{
     CommandManager *ComManage;
     TextDisplay * theTextDisplay;
     public:
+        Manager(Grid *theGrid, CommandManager *ComManage, TextDisplay * theTextDisplay);
         void play(int argc, char * argv[]);
+
 };
 
 #endif
