@@ -6,8 +6,7 @@
 #include "block.h"
 #include "OneLev.h"
 #include "ZeroLev.h"
-
-class laidBlocks;
+#include "laidBlocks.h"
 
 void Grid::setObserver(Observer *ob){
     this->attach(ob);
