@@ -4,7 +4,7 @@
 using namespace std;
 
 Block::Block(int x, int y, int rotate, bool levelHeavy, bool specialHeavy) : 
-	x{x}, y{y}, rotate{rotate}, levelHeavy{levelHeavy}, specialHeavy{specialHeavy} {}
+	   x{x}, y{y}, rotate{rotate}, levelHeavy{levelHeavy}, specialHeavy{specialHeavy} {}
 
 int  Block::getX() {return x;}
 

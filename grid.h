@@ -32,13 +32,19 @@ class Grid : public Subject{
     Level *currentLevel;
     bool dead;
     bool effect;
-    // notification attr missing
+    // notification attr missing // added 
 
     public:
         Grid(int width, int height, int level, int player);
         void init();
         int getWidth();
         int getHeight();
+        bool fixedNext = false;
+	    bool pointsModified = false;
+	    bool levelModified = false;
+	    bool hiScoreModified = false;
+	    bool blindOn = false;
+	    bool blindOff = false;
         int getScore() const;
         void setObserver(Observer *ob);
         void notifyObservers() override;
