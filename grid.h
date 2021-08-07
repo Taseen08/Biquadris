@@ -58,7 +58,7 @@ class Grid : public Subject{
         int getPlayer();
         bool isBlind() const;
         void setBlind(bool blind);
-        bool isHeavy(bool heavy) const;
+        bool isHeavy() const;
         void setHeavy(bool heavy);
         bool isForce() const; //returns whether board has force active
         void setForce(bool force); //sets whether board has force active

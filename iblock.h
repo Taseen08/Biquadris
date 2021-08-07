@@ -9,7 +9,7 @@ class iblock : public Block {
 	public:
 		iblock(bool heavy);
         char whichBlock() override; 
-		vector<vector<string>> getBlock() override; 
+		vector<vector<string> > getBlock() override; 
 		vector<int> getShape() override; 
 		~iblock() override;
 };
