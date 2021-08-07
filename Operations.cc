@@ -85,3 +85,107 @@ bool Operations::isValid(Grid &theGrid, int x, int y, int rotation){
     }
     return true;
 }
+
+
+void Operations::removeLines(Grid &theGrid){
+    int s = theGrid.lyingBlocks.size();
+    Block *current = theGrid.current;
+    // if (theGrid.lyingBlocks[s-1][0].getLevelGen() == 4){
+    //     if (current->getShape() != "*"){
+
+    //     } 
+    // } // level 4 shit
+
+    int removedLines = 0;
+
+    for (int r=0; r<4; ++r){
+        if (current->getY()+r < theGrid.height){
+            bool existLine = true;
+            for (int c = 0; c< theGrid.width; ++c){
+                if (theGrid.mainGrid[current->getY()+r][c].isOccupied()==false){
+                    existLine = false;
+                    break;
+                }
+            }
+
+            if (existLine){
+
+                int moveVal = current->getY()+r;
+
+                for (int i=theGrid.lyingBlocks.size()-1; i>=0; --i){
+                    bool canRemove = false;
+
+                    for (int j=0; j<4; ++j){
+                        if (theGrid.lyingBlocks[i][j].getCoord() == moveVal){
+                            theGrid.lyingBlocks[i][j].setOccupied(true);
+                        }
+
+                        if (theGrid.lyingBlocks[i][j].getOccupied()==false){
+                            canRemove = false;
+                        }
+
+                        if (theGrid.lyingBlocks[i].size()==1){
+                            break;
+                        }
+                    }
+
+                    if (canRemove==true){
+                        int level = theGrid.lyingBlocks[i][0].getLevelGen();
+                        theGrid.score += (1+level) * (1 + level);
+                        // theGrid.notifications.scoreChanged = true;
+                        theGrid.notifyObservers();
+                        theGrid.lyingBlocks.erase(theGrid.lyingBlocks.begin()+i);
+                    }
+                }
+
+                for (int row=moveVal-1; row>0; --row){
+                    for (int col = 0; col < theGrid.width; ++col){
+                        if (theGrid.mainGrid[row][col].isOccupied()){
+                            theGrid.mainGrid[row+1][col].setState(theGrid.mainGrid[row][col].getState());
+       
+                        }
+                        else {
+                            theGrid.mainGrid[row+1][col].unsetState();
+                        }
+                    }
+                }
+
+                for (int row=0; row<theGrid.width; ++row){
+                    theGrid.mainGrid[0][row].unsetState();
+                }
+
+                removedLines+=1;
+            }
+        }
+    }
+
+    if (removedLines>0){
+
+        for (int row = 0; row<s; ++row){
+            for (int col =0; col<4; ++col){
+                theGrid.mainGrid[row][col].setY(theGrid.lyingBlocks[row][col].getCoord()+removedLines);
+                if (theGrid.lyingBlocks[row].size() ==1){
+                    break;
+                }
+            }
+        }
+
+        theGrid.score += (theGrid.level + removedLines) * (theGrid.level + removedLines);
+        // notifications.scoreChanged = true;
+
+        theGrid.notifyObservers();
+
+        // level 4
+        // if (theGrid.level == 4)
+
+
+    }
+
+    if (removedLines >=2){
+        theGrid.effect = true;
+    }
+
+    delete theGrid.current;
+
+
+}
