@@ -1,12 +1,15 @@
 #ifndef _MANAGER_H
 #define _MANAGER_H
-// #include <iostream>
-// #include <sstream>
-// #include <stdlib.h>
-// #include <time.h>
-// #include <string>
-// #include <vector>
-// #include <memory>
+#include <iostream>
+#include <sstream>
+#include <stdlib.h>
+#include <time.h>
+#include <string>
+#include <vector>
+#include <memory>
+#include <cstdlib>
+#include "Level.h"
+#include "OneLev.h"
 #include "grid.h"
 #include "block.h"
 #include "textdisplay.h"
@@ -14,12 +17,15 @@
 #include "Level.h"
 
 class Manager{
-    Grid *theGrid;
+    Grid *theGridOne;
+    Grid *theGridTwo;
     CommandManager *ComManage;
-    TextDisplay * theTextDisplay;
+    TextDisplay * td;
     public:
-        Manager(Grid *theGrid, CommandManager *ComManage, TextDisplay * theTextDisplay);
-        void play(int argc, char * argv[]);
+        Manager(Grid *theGridOne, Grid *theGridTwo, CommandManager *ComManage, TextDisplay * theTextDisplay);
+        int play(int c, char * v[]);
+
+        // destructor?
 
 };
 
