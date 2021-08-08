@@ -13,13 +13,20 @@
 #include "ZeroLev.h"
 #include "OneLev.h"
 #include "specialaction.h"
+#include "jblock.h"
+#include "iblock.h"
+#include "lblock.h"
+#include "oblock.h"
+#include "sblock.h"
+#include "zblock.h"
+#include "tblock.h"
 
 
-Manager::Manager(Grid *theGridOne, Grid *theGridTwo, CommandManager *ComManage, TextDisplay * theTextDisplay){
+Manager::Manager(Grid *theGridOne, Grid *theGridTwo, CommandManager *ComManage){
     this->ComManage = ComManage;
     this->theGridOne = theGridOne;
     this->theGridTwo = theGridTwo;
-    this->td = theTextDisplay;
+    
 }
 
 
@@ -114,17 +121,487 @@ int Manager::play(int c, char * v[]) {
     // shared_ptr<SpecialAction> sa1( theGridOne );  for decorator
     theGridTwo = new Grid(width, height, level_initial, playerTwo);
     //shared_ptr<SpecialAction> sa2( theGridTwo );
-    TextDisplay td1{width,height,theGridOne,theGridTwo};
+    TextDisplay td{width,height,theGridOne,theGridTwo};
     // graphicsdisplay
-    theGridOne->setObserver(&td1);
-    theGridTwo->setObserver(&td1);
+    theGridOne->setObserver(&td);
+    theGridTwo->setObserver(&td);
+    int gridOneCurLev = level_initial;
+    int gridTwoCurLev = level_initial;
+    int gridOneNextLev = level_initial;
+    int gridTwoNextLev = level_initial;
+    int drops = 0;
+    vector<string> comList;
+
+    // documentation
     
+	if (level_initial > 0) {
+        theGridOne->setCurrentLevel(level_initial, true);
+        theGridTwo->setCurrentLevel(level_initial, true);
+    } else {
+        theGridOne->setCurrentLevel(level_initial, false, L0_player1);
+        theGridTwo->setCurrentLevel(level_initial, false, L0_player2);
+    }
+
+    /* Graphics !! */
+
+    // Create the first 4 blocks on the grid
+    theGridOne->setCurrentBlock((theGridOne->getCurrentLevel())->NextBlock(0));
+    theGridTwo->setCurrentBlock((theGridTwo->getCurrentLevel())->NextBlock(0));
+    theGridOne->setNextBlock((theGridOne->getCurrentLevel())->NextBlock(1));
+    theGridTwo->setNextBlock((theGridTwo->getCurrentLevel())->NextBlock(1));
+    // Moveblocks
+    theGridOne->moveBlock(0,0,0);
+    theGridTwo->moveBlock(0,0,0);
 
 
+    // Play
+    while (true) {
 
+        bool restart = false;
 
+        if (drops == 0) {
+            cout << td;
+            count++;
+        }
 
+        Grid * theGrid = nullptr;
+        if ((count % 2) == 0) {
+            theGrid = theGridOne;
+        } else {
+            theGrid = theGridTwo;
+        }
 
+        while (true) {
+            // multiple drops
+            if (drops > 0) {
+                // keep dropping consecutive blocks until 0 drops left
+                while(theGrid->validMove(0,1,0)) {
+                    theGrid->moveBlock(0,1,0);
+                }
+
+                if((count % 2) == 0) {
+                    theGrid->findLyingBlock(gridOneCurLev);
+                } else {
+                    theGrid->findLyingBlock(gridTwoCurLev);
+                }
+                theGrid->checkLines();
+                drops--;
+                break;
+                }
+
+            string cmd;
+            string in;
+            int mult;
+
+            if(!comList.empty()) {
+                in = comList.front();
+                comList.erase(comList.begin());
+            } else {
+                cin >> in;
+            }
+
+            // Use command interpreter
+            cmd = ComManage->commandDetector(in);
+            mult = ComManage->multiplier(in);
+
+            // COMMAND FUNCTIONALITIES
+
+            // invalid command check
+            if (cmd == "error!") {
+                cout << "Invalid command" << endl;
+                continue;
+            }
+
+            // if multiplier is 0, do nothing except if the block is heavy
+            if (mult == 0) {
+                if (!theGrid->getCurrentBlock()->isEffectHeavy() &&
+                    !theGrid->getCurrentBlock()->isLevelHeavy()) {
+                        continue;
+                    }
+            }
+
+            // rename
+            if (cmd == "rename") {
+                string old;
+                string replace;
+
+                //read from comList or standard input
+                if(!comList.empty()) {
+                    old = comList.front();
+                    comList.erase(comList.begin());
+                } else {
+                    cin >> old;
+                }
+                if(!comList.empty()) {
+                    replace = comList.front();
+                    comList.erase(comList.begin());
+                } else {
+                    cin >> replace;
+                }
+
+                // rename using command manager
+                ComManage->renamer(old, replace);
+
+                cout << td;
+                continue;
+            }
+
+            // left
+            if (cmd == "left") {
+                // move left mult times
+                for (int i = 0; i < mult; i++) {
+                    if (theGrid->validMove(-1,0,0)) {
+                        theGrid->moveBlock(-1,0,0);
+                    } else {
+                        break;
+                    }
+                }
+            }
+
+            // right
+            if (cmd == "right") {
+                // move right mult times 
+                for (int i = 0; i < mult; i++) {
+                    if (theGrid->validMove(1,0,0)) {
+                        theGrid->moveBlock(1,0,0);
+                    } else {
+                        break;
+                    }
+                }
+            }
+
+            // down
+            if (cmd == "down") {
+                // move down mult times 
+                for (int i = 0; i < mult; i++) {
+                    if (theGrid->validMove(0,1,0)) {
+                        theGrid->moveBlock(0,1,0);
+                    } else {
+                        break;
+                    }
+                }
+            }
+
+            // clockwise rotation
+            if (cmd == "clockwise") {
+                //rotate clockwise mult times
+                for (int i = 0; i < mult; i++) {
+                    if (theGrid->validMove(0,0,1)) {
+                        theGrid->moveBlock(0,0,1);
+                    } else {
+                        break;
+                    }
+                }
+            }
+
+            //counterclockwise rotation
+            if (cmd == "counterclockwise") {
+                //rotate counterclockwise mult times
+                for (int i = 0; i < mult; i++) {
+                    if (theGrid->validMove(0,0,-1)) {
+                        theGrid->moveBlock(0,0,-1);
+                    } else {
+                        break;
+                    }
+                }
+            }
+
+            //drop
+            if (cmd == "drop") {
+                // dropping logic
+                while(theGrid->validMove(0,1,0)) {
+                    theGrid->moveBlock(0,1,0);
+                }
+
+                // complete lines check
+                if (count % 2 == 0) {
+                    theGrid->findLyingBlock(gridOneCurLev);
+                } else {
+                    theGrid->findLyingBlock(gridTwoCurLev);
+                }
+                theGrid->checkLines();
+
+                // if drops > 0, keep dropping until 0
+                if (mult > 1) {
+                    drops = mult - 1;
+                }
+                break;
+
+            }
+
+            // level down
+
+            if (cmd == "leveldown") {
+                size_t curr = theGrid->getLevel();
+                // level shouldnt go below 0
+                if (curr != 0) {
+                    for(int i = 0; i < mult; i++) {
+                        if (curr == 0) {
+                            break;
+                        }
+                        curr--;
+                    }
+
+                    if(curr > 0) {
+                        theGrid->setCurrentLevel(curr, true);
+                    } else {
+                        if (theGrid->getPlayer() == 1) {
+                            theGrid->setCurrentLevel(curr, false, L0_player1);
+                        } else {
+                            theGrid->setCurrentLevel(curr, false, L0_player2);
+                        }
+                    }
+                    // adjust level
+                    if (count % 2 == 0) {
+                        gridOneCurLev = curr;
+                        gridOneNextLev = curr;
+                    } else {
+                        gridTwoCurLev = curr;
+                        gridTwoNextLev = curr;
+                    }
+                }
+                //print textdisplay and continue
+                cout << td;
+                continue;
+            }
+
+            // level up
+            if (cmd == "levelup") {
+                size_t curr = theGrid->getLevel();
+
+                /// level shouldnt exceed 4
+                if (curr != 4) {
+                    for (int i = 0; i < mult; i++) {
+                        if (curr == 4) {
+                            break;
+                        }
+                        curr++;
+                    }
+                    theGrid->setCurrentLevel(curr, true);
+                    
+                    // adjust level
+                    if (count % 2 == 0) {
+                        gridOneCurLev = curr;
+                        gridOneNextLev = curr;
+                    } else {
+                        gridTwoCurLev = curr;
+                        gridTwoNextLev = curr;
+                    }
+                }
+
+                //print textdisplay and continue
+                cout << td;
+                continue;
+            }
+
+            // random 
+            if (cmd == "random") {
+                size_t curr = theGrid->getLevel();
+
+                if (!(curr == 0)) {
+                    theGrid->setCurrentLevel(curr, true);
+                }
+
+                //print textdisplay and continue
+                cout << td;
+                continue;
+            }
+
+            // no random sequence
+            if (cmd == "norandom") {
+                size_t curr = theGrid->getLevel();
+
+                // check if level 0
+                if (!(curr == 0)) {
+                    string file;
+                    // check comList for existing filename in queue
+                    if (!comList.empty()) {
+                        file = comList.front();
+                        comList.erase(comList.begin());
+                    } else {
+                        cin >> file;
+                    }
+
+                    ifstream f(file);
+                    if(!f.good()) {
+                        cout << "File not readable or does not exist!" << endl;
+                    } else {
+                        theGrid->setCurrentLevel(curr, false, file);
+                    }
+                }
+
+                // print textdisplay and continue
+                cout << td;
+                continue;
+            }
+
+            // sequence
+            if (cmd == "sequence") {
+                string file;
+                string command;
+                ifstream f;
+
+                if (!comList.empty()) {
+                    file = comList.front();
+                    comList.erase(comList.begin());
+                } else {
+                    cin >> file;
+                }
+
+                f.open(file);
+                if(!f.good()) {
+                    cout << "File does not exist." << endl;
+                    continue;
+                }
+
+                while(f >> command) {
+                    comList.__emplace_back(command);
+                }
+                continue;
+            }
+
+            // BLOCK COMMANDS
+            if (cmd.length() == 1) {
+
+                bool heavy = false;
+                if (theGrid->getLevel() == 3 || theGrid->getLevel() == 4) {
+                    heavy = true;
+                }
+
+                Block * old = theGrid->getCurrentBlock();
+                Block * newblock = nullptr;
+                if (cmd == "J") {
+                    newblock = new jblock{heavy};
+                } else if (cmd == "T") {
+                    newblock = new tblock{heavy};
+                } else if (cmd == "O") {
+                    newblock = new oblock{heavy};
+                } else if (cmd == "S") {
+                    newblock = new sblock{heavy};
+                } else if (cmd == "Z") {
+                    newblock = new zblock{heavy};
+                } else if (cmd == "L") {
+                    newblock = new lblock{heavy};
+                } else if (cmd == "I") {
+                    newblock = new iblock{heavy};
+                } else {
+                    continue;
+                }
+            
+
+            newblock->setX(old->getX());
+            newblock->setY(old->getY());
+            theGrid->deactivateBlock();
+            theGrid->setCurrentBlock(newblock);
+
+            if (theGrid->validMove(0,0,0)) {
+                theGrid->moveBlock(0,0,0);
+                delete old;
+            } else {
+                theGrid->setCurrentBlock(old);
+                theGrid->moveBlock(0,0,0);
+                delete newblock;
+            }
+
+            //print textdisplay and continue
+                cout << td;
+                continue;
+            }
+
+            // restart
+            
+
+            if(cmd == "restart") {
+                restart = true;
+
+                // reset variables
+                theGridOne->reset();
+                theGridTwo->reset();
+                count = -1;
+                grid1_count = 1;
+                grid2_count = 1;
+
+                theGridOne->setCurrentBlock((theGridOne->getCurrentLevel())->NextBlock(0));
+                theGridTwo->setCurrentBlock((theGridTwo->getCurrentLevel())->NextBlock(0));
+                theGridOne->setNextBlock((theGridOne->getCurrentLevel())->NextBlock(1));
+                theGridTwo->setNextBlock((theGridTwo->getCurrentLevel())->NextBlock(1));
+                theGridOne->moveBlock(0,0,0);
+                theGridTwo->moveBlock(0,0,0);
+                break;
+                
+            }
+
+            // endgame
+            if (cmd == "quit") {
+                // delete gd; /* Graphics */
+                return 0;
+            }
+
+            /* Level heavy 3-4 logic */
+
+            /* Effect heavy logic */
+
+            // print textdisplay after the turn
+            cout << td;
+
+        }
+
+        size_t highestScore = 0;
+        size_t scoreP1 = theGridOne->getScore();
+        size_t scoreP2 = theGridTwo->getScore();
+        if(scoreP1 > highestScore || scoreP2 > highestScore) {
+            if (scoreP1 >= scoreP2) {
+                highestScore = scoreP1;
+            } else {
+                highestScore = scoreP2;
+            }
+            theGridOne->setHighScore(highestScore);
+            theGridTwo->setHighScore(highestScore); 
+        }
+
+        // check if restart called
+        if (restart) {
+            continue;
+        }
+
+        /* Blind,force,heavy, '*', special actions */
+
+        // Next block
+
+        size_t gridcount;
+        if (count % 2 == 0) {
+            grid1_count++;
+            gridcount = grid1_count;
+        } else {
+            grid2_count++;
+            gridcount = grid2_count;
+        }
+
+        theGrid->setCurrentBlock(theGrid->getNextBlock());
+        theGrid->setNextBlock((theGrid->getCurrentLevel())->NextBlock(gridcount));
+
+        // Check if someone lost
+        if (theGrid->validMove(0,0,0)) {
+            theGrid->moveBlock(0,0,0);
+
+            if (count % 2 == 0) { // player 1 was playing
+                gridOneCurLev = gridOneNextLev;
+                gridOneNextLev = static_cast<int>(theGrid->getLevel());
+            } else { // player 2 was playing
+                gridTwoCurLev = gridTwoNextLev; 
+                gridTwoNextLev = static_cast<int>(theGrid->getLevel());
+            }
+        } else {
+            if (count % 2 == 0) {
+                cout << "Game over! Player 2 won!" << endl;
+                // graphics //
+            } else {
+                cout << "Game over! Player 1 won!" << endl;
+            }
+            // delete gd;  graphics
+            return 0;
+        }
+    }
 
 }
 

@@ -20,9 +20,9 @@ class Manager{
     Grid *theGridOne;
     Grid *theGridTwo;
     CommandManager *ComManage;
-    TextDisplay * td;
+    
     public:
-        Manager(Grid *theGridOne, Grid *theGridTwo, CommandManager *ComManage, TextDisplay * theTextDisplay);
+        Manager(Grid *theGridOne, Grid *theGridTwo, CommandManager *ComManage);
         int play(int c, char * v[]);
 
         // destructor?
