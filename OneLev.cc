@@ -7,7 +7,7 @@
 #include "block.h"
 #include "OneLev.h"
 
-OneLev::OneLev(bool random, string source){
+OneLev::OneLev(bool random, std::string source){
     this->random = random;
     this->source = source;
     this->selfLevel = 1;
