@@ -203,10 +203,10 @@ void Grid::reset(){
 void Grid::setCurrentLevel(int lev, bool random, std::string fileName){
     delete this->currentLevel;
     if (lev == 0) this->currentLevel = new ZeroLev(fileName);
-	else if (lev == 1) {
-	       if (random) this->currentLevel = new OneLev(true);
-               else this->currentLevel = new OneLev(false, fileName);
-	}
+	// else if (lev == 1) {
+	//        if (random) this->currentLevel = new OneLev(true);
+    //            else this->currentLevel = new OneLev(false, fileName);
+	// }
 	// else if (lev == 2) {
 	// 	if (random) this->currentLevel = new LevelTwo(true);
     //             else this->currentLevel = new LevelTwo(false, fileName);
