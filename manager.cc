@@ -31,15 +31,15 @@ Manager::Manager(Grid *theGridOne, Grid *theGridTwo, CommandManager *ComManage){
 }
 
 Manager::~Manager(){
-    delete this->ComManage;
-    delete this->theGridOne;
-    delete this->theGridTwo;
+    // delete this->ComManage;
+    // delete this->theGridOne;
+    // delete this->theGridTwo;
 }
 
 int Manager::play(int c, char * v[]) {
 
     srand(2);  // should change to something else
-
+    Operations all_operations;
     size_t width = 11; //main
     size_t height = 18;  // main
     size_t level_initial = 0;
@@ -156,8 +156,8 @@ int Manager::play(int c, char * v[]) {
     theGridOne->setNextBlock((theGridOne->getCurrentLevel())->NextBlock(1));
     theGridTwo->setNextBlock((theGridTwo->getCurrentLevel())->NextBlock(1));
     // Moveblocks
-    theGridOne->moveBlock(0,0,0);
-    theGridTwo->moveBlock(0,0,0);
+    all_operations.moveBlock(*theGridOne,0,0,0);
+    all_operations.moveBlock(*theGridTwo,0,0,0);
 
 
     // Play
@@ -171,7 +171,6 @@ int Manager::play(int c, char * v[]) {
         }
 
         Grid * theGrid = nullptr;
-        Operations all_operations;
         if ((count % 2) == 0) {
             theGrid = theGridOne;
         } else {
