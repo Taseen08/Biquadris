@@ -171,6 +171,7 @@ int Manager::play(int c, char * v[]) {
         }
 
         Grid * theGrid = nullptr;
+        Operations all_operations;
         if ((count % 2) == 0) {
             theGrid = theGridOne;
         } else {
@@ -181,8 +182,8 @@ int Manager::play(int c, char * v[]) {
             // multiple drops
             if (drops > 0) {
                 // keep dropping consecutive blocks until 0 drops left
-                while(theGrid->validMove(0,1,0)) {
-                    theGrid->moveBlock(0,1,0);
+                while(all_operations.isValid(*theGrid,0,1,0)) {
+                    all_operations.moveBlock(*theGrid,0,1,0);
                 }
 
                 if((count % 2) == 0) {
@@ -190,7 +191,7 @@ int Manager::play(int c, char * v[]) {
                 } else {
                     theGrid->findLyingBlock(gridTwoCurLev);
                 }
-                theGrid->checkLines();
+                all_operations.removeLines(*theGrid);
                 drops--;
                 break;
                 }
@@ -256,8 +257,8 @@ int Manager::play(int c, char * v[]) {
             if (cmd == "left") {
                 // move left mult times
                 for (int i = 0; i < mult; i++) {
-                    if (theGrid->validMove(-1,0,0)) {
-                        theGrid->moveBlock(-1,0,0);
+                    if (all_operations.isValid(*theGrid,-1,0,0)) {
+                        all_operations.moveBlock(*theGrid,-1,0,0);
                     } else {
                         break;
                     }
@@ -268,8 +269,8 @@ int Manager::play(int c, char * v[]) {
             if (cmd == "right") {
                 // move right mult times 
                 for (int i = 0; i < mult; i++) {
-                    if (theGrid->validMove(1,0,0)) {
-                        theGrid->moveBlock(1,0,0);
+                    if (all_operations.isValid(*theGrid,1,0,0)) {
+                        all_operations.moveBlock(*theGrid,1,0,0);
                     } else {
                         break;
                     }
@@ -280,8 +281,8 @@ int Manager::play(int c, char * v[]) {
             if (cmd == "down") {
                 // move down mult times 
                 for (int i = 0; i < mult; i++) {
-                    if (theGrid->validMove(0,1,0)) {
-                        theGrid->moveBlock(0,1,0);
+                    if (all_operations.isValid(*theGrid,0,1,0)) {
+                        all_operations.moveBlock(*theGrid,0,1,0);
                     } else {
                         break;
                     }
@@ -292,8 +293,8 @@ int Manager::play(int c, char * v[]) {
             if (cmd == "clockwise") {
                 //rotate clockwise mult times
                 for (int i = 0; i < mult; i++) {
-                    if (theGrid->validMove(0,0,1)) {
-                        theGrid->moveBlock(0,0,1);
+                    if (all_operations.isValid(*theGrid,0,0,1)) {
+                        all_operations.moveBlock(*theGrid,0,0,1);
                     } else {
                         break;
                     }
@@ -304,8 +305,8 @@ int Manager::play(int c, char * v[]) {
             if (cmd == "counterclockwise") {
                 //rotate counterclockwise mult times
                 for (int i = 0; i < mult; i++) {
-                    if (theGrid->validMove(0,0,-1)) {
-                        theGrid->moveBlock(0,0,-1);
+                    if (all_operations.isValid(*theGrid,0,0,-1)) {
+                        all_operations.moveBlock(*theGrid,0,0,-1);
                     } else {
                         break;
                     }
@@ -315,8 +316,8 @@ int Manager::play(int c, char * v[]) {
             //drop
             if (cmd == "drop") {
                 // dropping logic
-                while(theGrid->validMove(0,1,0)) {
-                    theGrid->moveBlock(0,1,0);
+                while(all_operations.isValid(*theGrid,0,1,0)) {
+                    all_operations.moveBlock(*theGrid,0,1,0);
                 }
 
                 // complete lines check
@@ -325,7 +326,7 @@ int Manager::play(int c, char * v[]) {
                 } else {
                     theGrid->findLyingBlock(gridTwoCurLev);
                 }
-                theGrid->checkLines();
+                all_operations.removeLines(*theGrid);
 
                 // if drops > 0, keep dropping until 0
                 if (mult > 1) {
@@ -500,12 +501,12 @@ int Manager::play(int c, char * v[]) {
             theGrid->deactivateBlock();
             theGrid->setCurrentBlock(newblock);
 
-            if (theGrid->validMove(0,0,0)) {
-                theGrid->moveBlock(0,0,0);
+            if (all_operations.isValid(*theGrid,0,0,0)) {
+                all_operations.moveBlock(*theGrid,0,0,0);
                 delete old;
             } else {
                 theGrid->setCurrentBlock(old);
-                theGrid->moveBlock(0,0,0);
+                all_operations.moveBlock(*theGrid,0,0,0);
                 delete newblock;
             }
 
@@ -531,8 +532,8 @@ int Manager::play(int c, char * v[]) {
                 theGridTwo->setCurrentBlock((theGridTwo->getCurrentLevel())->NextBlock(0));
                 theGridOne->setNextBlock((theGridOne->getCurrentLevel())->NextBlock(1));
                 theGridTwo->setNextBlock((theGridTwo->getCurrentLevel())->NextBlock(1));
-                theGridOne->moveBlock(0,0,0);
-                theGridTwo->moveBlock(0,0,0);
+                all_operations.moveBlock(*theGrid,0,0,0);
+                all_operations.moveBlock(*theGrid,0,0,0);
                 break;
                 
             }
@@ -587,8 +588,8 @@ int Manager::play(int c, char * v[]) {
         theGrid->setNextBlock((theGrid->getCurrentLevel())->NextBlock(gridcount));
 
         // Check if someone lost
-        if (theGrid->validMove(0,0,0)) {
-            theGrid->moveBlock(0,0,0);
+        if (all_operations.isValid(*theGrid,0,0,0)) {
+            all_operations.moveBlock(*theGrid,0,0,0);
 
             if (count % 2 == 0) { // player 1 was playing
                 gridOneCurLev = gridOneNextLev;
