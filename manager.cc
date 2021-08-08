@@ -29,6 +29,11 @@ Manager::Manager(Grid *theGridOne, Grid *theGridTwo, CommandManager *ComManage){
     
 }
 
+Manager::~Manager(){
+    delete this->ComManage;
+    delete this->theGridOne;
+    delete this->theGridTwo;
+}
 
 int Manager::play(int c, char * v[]) {
 
