@@ -31,7 +31,6 @@ string CommandManager::commandDetector(string in) {
 	int mult;
 	stringstream ss;
 	ss << in;
-    int mult;
 	string command;
 	string out;
 	if (ss >> mult) {
