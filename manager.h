@@ -25,7 +25,7 @@ class Manager{
         Manager(Grid *theGridOne, Grid *theGridTwo, CommandManager *ComManage);
         int play(int c, char * v[]);
         ~Manager();
-        // destructor?
+        
 
 };
 

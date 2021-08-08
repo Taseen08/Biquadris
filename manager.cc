@@ -461,7 +461,7 @@ int Manager::play(int c, char * v[]) {
                 }
 
                 while(f >> command) {
-                    comList.emplace_back(command);
+                    comList.__emplace_back(command);
                 }
                 continue;
             }
