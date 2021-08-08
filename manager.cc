@@ -40,14 +40,14 @@ int Manager::play(int c, char * v[]) {
 
     srand(2);  // should change to something else
     Operations all_operations;
-    size_t width = 11; //main
-    size_t height = 18;  // main
-    size_t level_initial = 0;
-    size_t grid1_count = 1;
-    size_t grid2_count = 1;
+    int width = 11; //main
+    int height = 18;  // main
+    int level_initial = 0;
+    int grid1_count = 1;
+    int grid2_count = 1;
     int count = -1;
-    size_t playerOne = 1;
-    size_t playerTwo = 2;
+    int playerOne = 1;
+    int playerTwo = 2;
     string L0_player1 = "sequence1.txt";
 	string L0_player2 = "sequence2.txt";
 
@@ -338,7 +338,7 @@ int Manager::play(int c, char * v[]) {
             // level down
 
             if (cmd == "leveldown") {
-                size_t curr = theGrid->getLevel();
+                int curr = theGrid->getLevel();
                 // level shouldnt go below 0
                 if (curr != 0) {
                     for(int i = 0; i < mult; i++) {
@@ -373,7 +373,7 @@ int Manager::play(int c, char * v[]) {
 
             // level up
             if (cmd == "levelup") {
-                size_t curr = theGrid->getLevel();
+                int curr = theGrid->getLevel();
 
                 /// level shouldnt exceed 4
                 if (curr != 4) {
@@ -402,7 +402,7 @@ int Manager::play(int c, char * v[]) {
 
             // random 
             if (cmd == "random") {
-                size_t curr = theGrid->getLevel();
+                int curr = theGrid->getLevel();
 
                 if (!(curr == 0)) {
                     theGrid->setCurrentLevel(curr, true);
@@ -415,7 +415,7 @@ int Manager::play(int c, char * v[]) {
 
             // no random sequence
             if (cmd == "norandom") {
-                size_t curr = theGrid->getLevel();
+                int curr = theGrid->getLevel();
 
                 // check if level 0
                 if (!(curr == 0)) {
@@ -550,11 +550,9 @@ int Manager::play(int c, char * v[]) {
             // print textdisplay after the turn
             cout << td;
 
-        }
-
-        size_t highestScore = 0;
-        size_t scoreP1 = theGridOne->getScore();
-        size_t scoreP2 = theGridTwo->getScore();
+        int highestScore = 0;
+        int scoreP1 = theGridOne->getScore();
+        int scoreP2 = theGridTwo->getScore();
         if(scoreP1 > highestScore || scoreP2 > highestScore) {
             if (scoreP1 >= scoreP2) {
                 highestScore = scoreP1;
@@ -574,7 +572,7 @@ int Manager::play(int c, char * v[]) {
 
         // Next block
 
-        size_t gridcount;
+        int gridcount;
         if (count % 2 == 0) {
             grid1_count++;
             gridcount = grid1_count;
@@ -592,10 +590,10 @@ int Manager::play(int c, char * v[]) {
 
             if (count % 2 == 0) { // player 1 was playing
                 gridOneCurLev = gridOneNextLev;
-                gridOneNextLev = static_cast<int>(theGrid->getLevel());
+                gridOneNextLev = theGrid->getLevel();
             } else { // player 2 was playing
                 gridTwoCurLev = gridTwoNextLev; 
-                gridTwoNextLev = static_cast<int>(theGrid->getLevel());
+                gridTwoNextLev = theGrid->getLevel();
             }
         } else {
             if (count % 2 == 0) {
@@ -609,5 +607,6 @@ int Manager::play(int c, char * v[]) {
         }
     }
 
+}
 }
 
