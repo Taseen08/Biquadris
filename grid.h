@@ -43,8 +43,14 @@ class Grid : public Subject{
 	    bool pointsModified = false;
 	    bool levelModified = false;
 	    bool hiScoreModified = false;
-	    bool blindOn = false;
-	    bool blindOff = false;
+	    bool blindOn = false; // why two blind bool (below)
+	    bool blindOff = false; 
+        void setFixedNext(bool booleanVal);
+        void setPointsModified(bool booleanVal);
+        void setLevelModified(bool booleanVal);
+        void setHiScoreModified(bool booleanVal);
+        void setBlindOn(bool booleanVal); // why two blind
+        void setBlindOff(bool booleanVal);
         int getScore() const;
         void setObserver(Observer *ob);
         void notifyObservers() override;

@@ -87,6 +87,30 @@ bool Grid::isBlind() const{
     return this->blind;
 }
 
+void Grid::setFixedNext(bool booleanVal) {
+    this->fixedNext = booleanVal;
+}
+
+void Grid::setPointsModified(bool booleanVal) {
+    this->pointsModified = booleanVal;
+}
+
+void Grid::setLevelModified(bool booleanVal) {
+    this->levelModified = booleanVal;
+}
+
+void Grid::setHiScoreModified(bool booleanVal) {
+    this->hiScoreModified = booleanVal;
+}
+
+void Grid::setBlindOn(bool booleanVal) {
+    this->blindOn = booleanVal;
+}
+
+void Grid::setBlindOff(bool booleanVal) {
+    this->blindOff = booleanVal;
+}
+
 int Grid::getPlayer(){
     return this->player;
 }
