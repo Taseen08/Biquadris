@@ -20,6 +20,7 @@
 #include "sblock.h"
 #include "zblock.h"
 #include "tblock.h"
+#include "Operations.h"
 
 
 Manager::Manager(Grid *theGridOne, Grid *theGridTwo, CommandManager *ComManage){
