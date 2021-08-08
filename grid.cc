@@ -1,4 +1,5 @@
 #include <vector>
+#include <string>
 #include <iostream>
 #include "cell.h"
 #include "grid.h"
@@ -199,7 +200,7 @@ void Grid::reset(){
     this->lyingBlocks.clear();
 }
 
-void Grid::setCurrentLevel(int lev, bool random, string fileName){
+void Grid::setCurrentLevel(int lev, bool random, std::string fileName){
     delete this->currentLevel;
     if (lev == 0) this->currentLevel = new ZeroLev(fileName);
 	else if (lev == 1) {
