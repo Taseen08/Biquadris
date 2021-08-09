@@ -1,5 +1,11 @@
 #include "Operations.h"
 #include "grid.h"
+#include "OneLev.h"
+#include "ZeroLev.h"
+#include "TwoLev.h"
+#include "ThreeLev.h"
+#include "FourLev.h"
+#include <iostream>
 
 void Operations::moveBlock(Grid &theGrid, int x, int y, int rotation){
     theGrid.deactivateBlock();
@@ -178,7 +184,9 @@ void Operations::removeLines(Grid &theGrid){
         theGrid.notifyObservers();
 
         // level 4
-        // if (theGrid.level == 4)
+        if (theGrid.level == 4) {
+            std::static_cast<FourLev*>(theGrid.current)->setSame(0);
+        }
 
 
     }

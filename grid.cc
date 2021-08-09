@@ -7,7 +7,11 @@
 #include "block.h"
 #include "OneLev.h"
 #include "ZeroLev.h"
+#include "TwoLev.h"
+#include "ThreeLev.h"
+#include "FourLev.h"
 #include "laidBlocks.h"
+
 
 void Grid::setObserver(Observer *ob){
     this->attach(ob);
