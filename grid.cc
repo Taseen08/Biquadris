@@ -19,9 +19,7 @@ void Grid::setObserver(Observer *ob){
 }
 
 void Grid::notifyObservers(){
-    for (int i=0; i<this->observers.size(); ++i){
-        this->observers[i]->notify(*this);
-    }
+    for (auto &ob : observers) ob->notify(*this);
 }
 
 Grid::~Grid(){
@@ -123,8 +121,20 @@ int Grid::getLevel(){
     return this->level;
 }
 
+<<<<<<< HEAD
+void Grid::setBlind(bool blind){ // two blind
+    if (blind) { 
+		this->blindOn = true;
+		this->blindOff = false;
+	}
+	else {
+		this->blindOn = false;
+		this->blindOff = true;
+	}
+=======
 void Grid::setBlind(bool blind){
     // needs change for notifications
+>>>>>>> 930ece587d3b287d6eb6c09977b84200d53e8fbf
     this->blind = blind;
     notifyObservers();
 }
@@ -155,9 +165,16 @@ void Grid::setForce(bool force){
 
 void Grid::setHighScore(int high){
     this->highScore = high;
+<<<<<<< HEAD
+    this->hiScoreModified = true;
+    notifyObservers(); // could be modified
+=======
     // need change for notifications
     this->notifyObservers(); // could be modified
+>>>>>>> 930ece587d3b287d6eb6c09977b84200d53e8fbf
 }
+
+
 
 int Grid::getHighScore(){
     return this->highScore;
@@ -191,8 +208,13 @@ void Grid::reset(){
     }
 
     this->score= 0;
+<<<<<<< HEAD
+    this->pointsModified = true;
+    notifyObservers();
+=======
     // needs change for  notification
     this->notifyObservers();
+>>>>>>> 930ece587d3b287d6eb6c09977b84200d53e8fbf
 
     this->setForce(false);
     this->setHeavy(false);
