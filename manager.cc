@@ -50,6 +50,7 @@ int Manager::play(int c, char * v[]) {
     int playerTwo = 2;
     string L0_player1 = "sequence1.txt";
 	string L0_player2 = "sequence2.txt";
+    int highestScore = 0;
 
 
     // Graphics stuff
@@ -461,7 +462,7 @@ int Manager::play(int c, char * v[]) {
                 }
 
                 while(f >> command) {
-                    comList.__emplace_back(command);
+                    comList.emplace_back(command);
                 }
                 continue;
             }
@@ -550,7 +551,9 @@ int Manager::play(int c, char * v[]) {
             // print textdisplay after the turn
             cout << td;
 
-        int highestScore = 0;
+        }
+
+        
         int scoreP1 = theGridOne->getScore();
         int scoreP2 = theGridTwo->getScore();
         if(scoreP1 > highestScore || scoreP2 > highestScore) {
@@ -608,5 +611,5 @@ int Manager::play(int c, char * v[]) {
     }
 
 }
-}
+
 
