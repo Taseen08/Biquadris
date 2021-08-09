@@ -67,6 +67,7 @@ int Grid::getScore() const{
 }
 Block* Grid::getCurrentBlock(){
     return this->current;
+
 }
 
 void Grid::setCurrentBlock(Block *currentBlock){
@@ -123,6 +124,7 @@ int Grid::getLevel(){
 }
 
 void Grid::setBlind(bool blind){
+    // needs change for notifications
     this->blind = blind;
     notifyObservers();
 }
@@ -153,6 +155,7 @@ void Grid::setForce(bool force){
 
 void Grid::setHighScore(int high){
     this->highScore = high;
+    // need change for notifications
     this->notifyObservers(); // could be modified
 }
 
@@ -188,6 +191,7 @@ void Grid::reset(){
     }
 
     this->score= 0;
+    // needs change for  notification
     this->notifyObservers();
 
     this->setForce(false);
