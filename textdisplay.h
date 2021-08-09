@@ -10,8 +10,8 @@ class Block;
 class Cell; 
 
 class TextDisplay: public Observer {
-	int h;
-    int w;	
+	int w;
+    int h;	
 	vector<vector<char>> displayOne;
 	vector<vector<char>> displayTwo;
 	// display preview at bottom
