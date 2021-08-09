@@ -53,11 +53,11 @@ void GraphicsDisplay::init() {
 //Notify method that will colour in the appropriate square 
 void GraphicsDisplay::notify(Cell &whoNotified) {
 	//get the information of the tile that notified the display
-	bool tileOccupied = whoNotified.getInfo().occupied;
-	size_t x = whoNotified.getInfo().x;
-	size_t y = whoNotified.getInfo().y;
-	char piece = whoNotified.getInfo().myPiece;
-	size_t player = whoNotified.getInfo().myBoard->getPlayer();
+	bool tileOccupied = whoNotified.isOccupied();
+	size_t x = whoNotified.getX();
+	size_t y = whoNotified.getY();
+	char piece = whoNotified.getState();
+	size_t player = whoNotified.getGrid()->getPlayer();
 	int colour = m[piece], black = 9;
 	size_t blockSize = tw - 0.01;
 	//if occupied, draw in the square at its location with the appropriate colour
@@ -73,7 +73,7 @@ void GraphicsDisplay::notify(Cell &whoNotified) {
 				(x * tw) + borderT, blockSize, blockSize, black);
 	}
 	//if this tile's board is blind, redraw the blind rectangle
-	if (whoNotified.getInfo().myBoard->isBlind()) applyBlind(player);
+	if (whoNotified.getGrid()->isBlind()) applyBlind(player);
 }
 
 //Notifies the graphic display to change the preview, score, level, hiscore
@@ -82,14 +82,14 @@ void GraphicsDisplay::notify(Grid &whoNotified) {
 	size_t pb = dh - borderT + 30; 
 	size_t player = whoNotified.getPlayer();
 	//get the block's indices to help draw in the preview
-	vector<size_t> preview = whoNotified.getNextBlock()->getPreview();
+	vector<int> preview = whoNotified.getNextBlock()->getShape();
 	int white = 8, black = 9;
-	char piece = whoNotified.getNextBlock()->getType();
+	char piece = whoNotified.getNextBlock()->whichBlock();
 	int colour = m[piece];
 	//these are used to give our blocks black lines
 	size_t blockSize = tw - 0.01;
 	size_t offset = 0.005;
-	if (whoNotified.getNotifType().nextBlockSet) {
+	if (whoNotified.fixedNext) {
 		//clear the correct player's preview first
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 2; j++) {
@@ -135,7 +135,7 @@ void GraphicsDisplay::notify(Grid &whoNotified) {
 		}
 	}
 	//if the high score has been changed, update it on the display
-	if (whoNotified.getNotifType().hiScoreChanged) {
+	if (whoNotified.hiScoreModified) {
 		string highscorespace, highscore;
 		for (int i = 0; i < 16; i++) highscorespace += " ";
 		highscore = "High Score:" + highscorespace + to_string(b1->getHiScore());
@@ -144,7 +144,7 @@ void GraphicsDisplay::notify(Grid &whoNotified) {
 		xw.drawString((dw - space) / 2, borderT - 80, highscore);
 	}
 	//if the level has been changed, update it on the correct player's board
-	if (whoNotified.getNotifType().levelChanged) {
+	if (whoNotified.levelModified) {
 		p1level = "Level:" + levelspace + to_string(b1->getLevel());
         	p2level = "Level:" + levelspace + to_string(b2->getLevel());
 		if (player == 1) {
@@ -159,7 +159,7 @@ void GraphicsDisplay::notify(Grid &whoNotified) {
 		}
 	}
 	//if the score has been changed, update it on the correct player's display
-	if (whoNotified.getNotifType().scoreChanged) {
+	if (whoNotified.pointsModified) {
 		p1score = "Score:" + levelspace + to_string(b1->getScore());
 		p2score = "Score:" + levelspace + to_string(b2->getScore());
 		if (player == 1) {
@@ -174,9 +174,9 @@ void GraphicsDisplay::notify(Grid &whoNotified) {
 		}
 	}
 	//if the board has been set to blind, then apply the blindness effect
-	if (whoNotified.getNotifType().blindOn) applyBlind(player);
+	if (whoNotified.blindOn) applyBlind(player);
 	//if the board wants its blindness to be removed, do so
-	if (whoNotified.getNotifType().blindOff) {
+	if (whoNotified.blindOff) {
 		if (player == 1) removeBlind(b1);
 		else removeBlind(b2);
 	}

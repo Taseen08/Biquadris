@@ -184,9 +184,9 @@ void Operations::removeLines(Grid &theGrid){
         theGrid.notifyObservers();
 
         // level 4
-        if (theGrid.level == 4) {
-            std::static_cast<FourLev*>(theGrid.current)->setSame(0);
-        }
+        // if (theGrid.level == 4) {
+        //     std::static_cast<FourLev*>(theGrid.current)->setSame(0);
+        // }
 
 
     }
