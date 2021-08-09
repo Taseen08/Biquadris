@@ -121,7 +121,6 @@ int Grid::getLevel(){
     return this->level;
 }
 
-<<<<<<< HEAD
 void Grid::setBlind(bool blind){ // two blind
     if (blind) { 
 		this->blindOn = true;
@@ -131,10 +130,6 @@ void Grid::setBlind(bool blind){ // two blind
 		this->blindOn = false;
 		this->blindOff = true;
 	}
-=======
-void Grid::setBlind(bool blind){
-    // needs change for notifications
->>>>>>> 930ece587d3b287d6eb6c09977b84200d53e8fbf
     this->blind = blind;
     notifyObservers();
 }
@@ -165,13 +160,8 @@ void Grid::setForce(bool force){
 
 void Grid::setHighScore(int high){
     this->highScore = high;
-<<<<<<< HEAD
     this->hiScoreModified = true;
     notifyObservers(); // could be modified
-=======
-    // need change for notifications
-    this->notifyObservers(); // could be modified
->>>>>>> 930ece587d3b287d6eb6c09977b84200d53e8fbf
 }
 
 
@@ -208,13 +198,8 @@ void Grid::reset(){
     }
 
     this->score= 0;
-<<<<<<< HEAD
     this->pointsModified = true;
     notifyObservers();
-=======
-    // needs change for  notification
-    this->notifyObservers();
->>>>>>> 930ece587d3b287d6eb6c09977b84200d53e8fbf
 
     this->setForce(false);
     this->setHeavy(false);
