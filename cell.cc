@@ -35,11 +35,11 @@ void Cell::setY(int y){
     this->y = y;
 }
 
-bool Cell::isOccupied(){
+bool Cell::isOccupied() const{
     return this->occupied;
 }
 
-char Cell::getState(){
+char Cell::getState() const{
     return this->state;
 }
 

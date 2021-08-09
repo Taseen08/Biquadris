@@ -32,7 +32,7 @@ void GraphicsDisplay::init() {
 	space = tw * 8; //space between the two boards
 	p2borderL = p1borderL + bw + space; //left border for P2
 	//print the high score, level and score of each player
-	highscore = "High Score:" + highscorespace + to_string(b1->getHiScore());
+	highscore = "High Score:" + highscorespace + to_string(b1->getHighScore());
 	p1level = "Level:" + levelspace + to_string(b1->getLevel());
 	p2level = "Level:" + levelspace + to_string(b2->getLevel());
 	xw.drawString((dw - space) / 2, borderT - 80, highscore);
@@ -138,7 +138,7 @@ void GraphicsDisplay::notify(Grid &whoNotified) {
 	if (whoNotified.hiScoreModified) {
 		string highscorespace, highscore;
 		for (int i = 0; i < 16; i++) highscorespace += " ";
-		highscore = "High Score:" + highscorespace + to_string(b1->getHiScore());
+		highscore = "High Score:" + highscorespace + to_string(b1->getHighScore());
 		//clear the current high score, then redraw the string
 		xw.fillRectangle(p1borderL * 4.3, borderT - 90, 80, 15, white);
 		xw.drawString((dw - space) / 2, borderT - 80, highscore);

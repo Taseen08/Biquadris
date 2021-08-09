@@ -18,8 +18,8 @@ class Cell : public Subject {
 		void setY(int y);
 		int getX();
 		int getY();
-        bool isOccupied();
-        char getState();
+        bool isOccupied() const;
+        char getState() const;
         void setState(char myState);
         void unsetState();
         Grid* getGrid();
