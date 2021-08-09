@@ -78,7 +78,8 @@ Block* Grid::getNextBlock(){
 
 void Grid::setNextBlock(Block* nextBlock){
     this->next = nextBlock;
-    this->notifyObservers(); // can set it after or could be modified
+    this->fixedNext = true;
+    notifyObservers(); // can set it after or could be modified
 }
 
 Level* Grid::getCurrentLevel(){
