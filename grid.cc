@@ -19,7 +19,9 @@ void Grid::setObserver(Observer *ob){
 }
 
 void Grid::notifyObservers(){
-    for (auto &ob : observers) ob->notify(*this);
+    for (int i=0; i<this->observers.size(); ++i){
+        this->observers[i]->notify(*this);
+    }
 }
 
 Grid::~Grid(){
