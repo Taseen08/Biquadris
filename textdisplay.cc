@@ -270,6 +270,7 @@ TextDisplay::TextDisplay(int width, int height, Grid *b1, Grid *b2) :
 	 int r = who.getX();
 	 int c = who.getY();
  	char state = who.getState();
+	// std::cout << state << std::endl;
  	Grid *grid = who.getGrid();
  	if (grid == gridOne) displayOne[r][c] = state;
  	else if (grid == gridTwo) displayTwo[r][c] = state;
