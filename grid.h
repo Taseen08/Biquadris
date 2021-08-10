@@ -82,9 +82,6 @@ class Grid : public Subject{
 		bool getDead(); //returns whether player is dead
         const std::vector<std::vector<Cell> >& getGrid();
         friend class Operations;
-        // bool validMove(int xShift, int yShift, int rotationShift); //returns whether a transform is valid
-		// void moveBlock(int xShift, int yShift, int rotationShift);
-        // void checkLines();
         friend ostream &operator<<(ostream &out, const Grid &grid);
         ~Grid();
 
