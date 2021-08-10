@@ -212,6 +212,10 @@ void Grid::reset(){
 
     // Level 4 stuff
 
+    if (this->level == 4){
+        static_cast<FourLev*>(this->current)->setSame(0);
+    }
+
     delete this->current;
     delete this->next;
 
@@ -221,23 +225,24 @@ void Grid::reset(){
 void Grid::setCurrentLevel(int lev, bool random, std::string fileName){
     delete this->currentLevel;
     if (lev == 0) this->currentLevel = new ZeroLev(fileName);
-	// else if (lev == 1) {
-	//        if (random) this->currentLevel = new OneLev(true);
-    //            else this->currentLevel = new OneLev(false, fileName);
-	// }
-	// else if (lev == 2) {
-	// 	if (random) this->currentLevel = new LevelTwo(true);
-    //             else this->currentLevel = new LevelTwo(false, fileName);
-	// }
-	// else if (lev == 3) {
-	// 	if (random) this->curLevel = new LevelThree(true);
-	// 	else this->curLevel = new LevelThree(false, file);
-	// }
-	// else if (lev == 4) { 
-	// 	if (random) this->curLevel = new LevelFour(true);
-	// 	else this->curLevel = new LevelFour(false, file);
-	// }
-    this->level = 1;
+	else if (lev == 1) {
+	       if (random) this->currentLevel = new OneLev(true);
+               else this->currentLevel = new OneLev(false, fileName);
+	}
+	else if (lev == 2) {
+		if (random) this->currentLevel = new TwoLev(true);
+                else this->currentLevel = new TwoLev(false, fileName);
+	}
+	else if (lev == 3) {
+		if (random) this->currentLevel = new ThreeLev(true);
+		else this->currentLevel = new ThreeLev(false, fileName);
+	}
+	else if (lev == 4) { 
+		if (random) this->currentLevel = new FourLev(true);
+		else this->currentLevel = new FourLev(false, fileName);
+	}
+    this->level = lev;
+    this->levelModified = true;
     this->notifyObservers();
 }
 

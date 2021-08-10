@@ -96,11 +96,14 @@ bool Operations::isValid(Grid &theGrid, int x, int y, int rotation){
 void Operations::removeLines(Grid &theGrid){
     int s = theGrid.lyingBlocks.size();
     Block *current = theGrid.current;
-    // if (theGrid.lyingBlocks[s-1][0].getLevelGen() == 4){
-    //     if (current->getShape() != "*"){
-
-    //     } 
-    // } // level 4 shit
+    if (theGrid.lyingBlocks[s-1][0].getLevelGen() == 4){
+        if (current->whichBlock() != '*'){
+            static_cast<FourLev*>(theGrid.current)->toggleSame();
+        } 
+        else{
+            static_cast<FourLev*>(theGrid.current)->setSame(0);
+        }
+    } // level 4 stuff
 
     int removedLines = 0;
 
@@ -184,9 +187,9 @@ void Operations::removeLines(Grid &theGrid){
         theGrid.notifyObservers();
 
         // level 4
-        // if (theGrid.level == 4) {
-        //     std::static_cast<FourLev*>(theGrid.current)->setSame(0);
-        // }
+        if (theGrid.level == 4) {
+            static_cast<FourLev*>(theGrid.current)->setSame(0);
+        }
 
 
     }
