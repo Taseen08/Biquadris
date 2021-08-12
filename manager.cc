@@ -21,6 +21,11 @@
 #include "zblock.h"
 #include "tblock.h"
 #include "Operations.h"
+#include "blind.h"
+#include "force.h"
+#include "heavy.h"
+#include "decorator.h"
+#include "graphics.h"
 
 
 Manager::Manager(Grid *theGridOne, Grid *theGridTwo, CommandManager *ComManage){
@@ -55,6 +60,11 @@ int Manager::play(int c, char * v[]) {
 
     // Graphics stuff
     bool graphicSwitch = true;
+    int space = 8;
+    int border = 5;
+    int cellWidth = 22;
+    int displayW = space + (border * 2) + (width * 2);
+    int displayH = (border * 3) + height;
 
     // Command line interface functionality
     for (int i = 1; i < c; i++) {  // for loop to while might be done
@@ -62,7 +72,7 @@ int Manager::play(int c, char * v[]) {
         string cmd = v[i];
 
         if (cmd == "-text") {
-            graphicSwitch = true;
+            graphicSwitch = false;
         } else if (c == 2) {
             cerr << "Not Enough Arguments. Expected xxx after " << cmd << endl;
             return 1;
@@ -125,11 +135,11 @@ int Manager::play(int c, char * v[]) {
     // Setup
 
     theGridOne = new Grid(width, height, level_initial, playerOne);
-    // shared_ptr<SpecialAction> sa1( theGridOne );  for decorator
+    shared_ptr<SpecialAction> sa1( theGridOne );  
     theGridTwo = new Grid(width, height, level_initial, playerTwo);
-    //shared_ptr<SpecialAction> sa2( theGridTwo );
+    shared_ptr<SpecialAction> sa2( theGridTwo );
     TextDisplay td{width,height,theGridOne,theGridTwo};
-    // graphicsdisplay
+    GraphicsDisplay * gd = nullptr;
     theGridOne->setObserver(&td);
     theGridTwo->setObserver(&td);
     int gridOneCurLev = level_initial;
@@ -149,7 +159,13 @@ int Manager::play(int c, char * v[]) {
         theGridTwo->setCurrentLevel(level_initial, false, L0_player2);
     }
 
-    /* Graphics !! */
+    // Output graphic display if the graphic is switched on
+    if (graphicSwitch) {
+        gd = new GraphicsDisplay(cellWidth, displayW, displayH,
+                            width, height, theGridOne, theGridTwo);
+        theGridOne->setObserver(gd);
+        theGridTwo->setObserver(gd);
+    }
 
     // Create the first 4 blocks on the grid
     theGridOne->setCurrentBlock((theGridOne->getCurrentLevel())->NextBlock(0));
@@ -540,13 +556,47 @@ int Manager::play(int c, char * v[]) {
 
             // endgame
             if (cmd == "quit") {
-                // delete gd; /* Graphics */
+                delete gd; 
                 return 0;
             }
 
-            /* Level heavy 3-4 logic */
+            // Level heavy (level 3 and 4)
+            if (theGrid->getCurrentBlock()->isLevelHeavy()) {
+                if (all_operations.isValid(*theGrid,0,1,0)) {
+                    all_operations.moveBlock(*theGrid,0,1,0);
+                }
+                if (!all_operations.isValid(*theGrid,0,1,0)) {
+                    if (count % 2 == 0) {
+                        theGrid->findLyingBlock(gridOneCurLev);
+                    } else {
+                        theGrid->findLyingBlock(gridTwoCurLev);
+                    }
+                    all_operations.removeLines(*theGrid);
+                    break;
+                }
+            }
 
-            /* Effect heavy logic */
+            // Effect heavy 
+            if (theGrid->getCurrentBlock()->isEffectHeavy()) {
+                if (cmd == "right" || cmd == "left") {
+                    for (int i = 0; i < 2; i++) {
+                        if(all_operations.isValid(*theGrid,0,1,0)) {
+                            all_operations.moveBlock(*theGrid,0,1,0);
+                        } else {
+                            break;
+                        }
+                    }
+                    if (!all_operations.isValid(*theGrid,0,1,0)) {
+                       if (count % 2 == 0) {
+                        theGrid->findLyingBlock(gridOneCurLev);
+                       } else {
+                        theGrid->findLyingBlock(gridTwoCurLev);
+                       }
+                       all_operations.removeLines(*theGrid);
+                       break;
+                    }
+                }
+            }
 
             // print textdisplay after the turn
             cout << td;
@@ -571,7 +621,130 @@ int Manager::play(int c, char * v[]) {
             continue;
         }
 
-        /* Blind,force,heavy, '*', special actions */
+       
+
+        //Turn off blind effect after the player's turn
+        if (theGrid->isBlind()) {
+            theGrid->setBlind(false);
+        }
+
+        //Turn off heavy effect after the player's turn
+        if (theGrid->isHeavy()) {
+            theGrid->setHeavy(false);
+        }
+
+        //Turn off force effect after the player's turn
+        if (theGrid->isForce()) {
+            theGrid->setForce(false);
+        }
+
+        // (1,1) block check
+        if (theGrid->getLevel() == 4) {
+            Block * b = theGrid->getCurrentLevel()->NextBlock(0);
+
+            if (b->whichBlock() == '*') {
+                theGrid->setCurrentBlock(b);
+                
+                //drop it
+                while(all_operations.isValid(*theGrid,0,1,0)) {
+                    all_operations.moveBlock(*theGrid,0,1,0);
+                }
+                theGrid->findLyingBlock(4);
+                all_operations.removeLines(*theGrid);
+            } else {
+                delete b;
+            }
+        }
+
+        // special effect called by player on opponent
+        if (theGrid->isEffect()) {
+            cout << td;
+            cout << "CHOOSE YOUR EFFECT ON YOUR OPPONENT: blind/heavy/force (only 1)" << endl;
+            string in;
+
+            while(true) {
+                if (!comList.empty()) {
+                    in = comList.front();
+                    comList.erase(comList.begin());
+                } else {
+                    cin >> in;
+                }
+
+                // blind effect 
+                if (in == "force") {
+                    char b;
+                    while (true) {
+                        cout << "Provide the block that you would want to force to your opponent: " << endl;
+                        if (!comList.empty()) {
+                            b = comList.front();
+                            comList.erase(comList.begin());
+                        } else {
+                            cin >> b;
+                        }
+                        if (b == "J" || b == "I" || b == "T" ||
+                            b == "S" || b == "O" || b == "Z" || b == "L") {
+                                break;
+                            }
+                        cout << "Not a valid block." << endl;
+                    }
+                    if (theGrid->getPlayer() == 1) {
+                        theGridTwo->setForce(true);
+                        sa2.reset(new Force{sa2, b});
+                        sa2->execute(*theGridTwo);
+                        if (theGridTwo->getDead()) {
+                            cout << "Game over! Player 1 won!" << endl;
+                            if (graphicSwitch) {
+                                gd->displayWinner(1);
+                            }
+                            delete gd;
+                            return 0;
+                        }
+                        break;
+                    } else {
+                        theGridOne->setForce(true);
+                        sa1.reset(new Force{sa1, b});
+                        sa1->execute(*theGridOne);
+                        if(theGridOne->getDead()) {
+                            cout << "Game over! Player 2 won!" << endl;
+                            if (graphicSwitch) {
+                                gd->displayWinner(2);
+                            }
+                            delete gd;
+                            return 0;
+                        }
+                        break;
+                    }
+                } else if (in == "blind") {
+                    if (theGrid->getPlayer() == 1) {
+                        theGridTwo->setBlind(true);
+                        sa2.reset(new Blind{sa2});
+                        sa2->execute(*theGridTwo);
+                        break;
+                    } else {
+                        theGridOne->setBlind(true);
+                        sa1.reset(new Blind{sa1});
+                        sa1->execute(*theGridOne);
+                        break;
+                    }
+                } else if (in == "heavy") {
+                    if (theGrid->getPlayer() == 1) {
+                        theGridTwo->setHeavy(true);
+                        sa2.reset(new Heavy{sa2});
+                        sa2->execute(*theGridTwo);
+                        break;
+                    } else {
+                        theGridOne->setHeavy(true);
+                        sa1.reset(new Heavy{sa1});
+                        sa1->execute(*theGridOne);
+                        break;
+                    }
+                } else {
+                    cout << in << " is not a valid special effect!" << endl;
+                }
+            }
+            theGrid->setEffect(false);
+        }
+
 
         // Next block
 
@@ -601,12 +774,20 @@ int Manager::play(int c, char * v[]) {
         } else {
             if (count % 2 == 0) {
                 cout << "Game over! Player 2 won!" << endl;
-                // graphics //
+                if (graphicSwitch) {
+                    gd->displayWinner(2);
+                }
+                delete gd;
+                return 0;
             } else {
                 cout << "Game over! Player 1 won!" << endl;
+                if (graphicSwitch) {
+                    gd->displayWinner(1);
+                }
+                delete gd;
+                return 0;
             }
-            // delete gd;  graphics
-            return 0;
+            
         }
     }
 
