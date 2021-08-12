@@ -713,13 +713,13 @@ int Manager::play(int c, char * v[]) {
           while (true) {
             cout << "Provide the block that you would want to force to your opponent: " << endl;
             if (!comList.empty()) {
-              b = comList.front();
+              b = comList.front().front();
               comList.erase(comList.begin());
             } else {
               cin >> b;
             }
-            if (b == "J" || b == "I" || b == "T" ||
-              b == "S" || b == "O" || b == "Z" || b == "L") {
+            if (b == 'J' || b == 'I' || b == 'T' ||
+              b == 'S' || b == 'O' || b == 'Z' || b == 'L') {
               break;
             }
             cout << "Not a valid block." << endl;
