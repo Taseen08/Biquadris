@@ -12,6 +12,8 @@
 
 #include "block.h"
 
+#include "ablock.h"
+
 FourLev::FourLev(bool random, std::string source) {
   this -> selfLevel = 4;
   this -> random = random;
@@ -51,7 +53,7 @@ Block * FourLev::NextBlock(int loc) {
     };
     k = rand() % (this -> blocks.size());
   }
-  if ((this -> same > 0) && (this -> same % 5 == 0)) return new xblock();
+  if ((this -> same > 0) && (this -> same % 5 == 0)) return new ablock{false};
   else if (this -> blocks[k] == 'I') return new iblock {
     true
   };

@@ -21,7 +21,7 @@ TwoLev::TwoLev(bool random, std::string source) {
 }
 
 void TwoLev::getOldBlocks() {
-  if (this -> randomCheck == true) {
+  if (this->random == true) {
     return;
   }
 
