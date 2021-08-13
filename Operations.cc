@@ -107,7 +107,7 @@ void Operations::removeLines(Grid & theGrid) {
     } else {
       theGrid.currentLevel->setSame(0);
     }
-
+  }
   int removedLines = 0;
 
   for (int r = 0; r < 4; ++r) {
@@ -201,4 +201,4 @@ void Operations::removeLines(Grid & theGrid) {
 
   delete theGrid.current;
 
-}}
+}
