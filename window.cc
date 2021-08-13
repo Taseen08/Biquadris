@@ -1,82 +1,88 @@
 #include <X11/Xlib.h>
+
 #include <X11/Xutil.h>
+
 #include <iostream>
+
 #include <cstdlib>
+
 #include <string>
+
 #include <unistd.h>
+
 #include "window.h"
 
 using namespace std;
 
 Xwindow::Xwindow(int width, int height) {
-	d = XOpenDisplay(NULL);
-	if (d == NULL) {
-		cerr << "Cannot open display" << endl;
-		exit(1);
-	}
-	
-	s = DefaultScreen(d);
-	w = XCreateSimpleWindow(
-		d, RootWindow(d, s), 10, 10, width, height, 
-		1, BlackPixel(d, s), WhitePixel(d, s)
-	);
+  d = XOpenDisplay(NULL);
+  if (d == NULL) {
+    cerr << "Cannot open display" << endl;
+    exit(1);
+  }
 
-	XSelectInput(d, w, ExposureMask | KeyPressMask);
+  s = DefaultScreen(d);
+  w = XCreateSimpleWindow(
+    d, RootWindow(d, s), 10, 10, width, height,
+    1, BlackPixel(d, s), WhitePixel(d, s)
+  );
 
-	Pixmap pix = XCreatePixmap(
-		d, w, width, height, 
-		DefaultDepth(d, DefaultScreen(d))
-	);
+  XSelectInput(d, w, ExposureMask | KeyPressMask);
 
-	gc = XCreateGC(d, pix, 0, 0);
+  Pixmap pix = XCreatePixmap(
+    d, w, width, height,
+    DefaultDepth(d, DefaultScreen(d))
+  );
 
-	// Set up colours.
-	XColor xcolour;
-	Colormap cmap;
+  gc = XCreateGC(d, pix, 0, 0);
 
-	const size_t numColours = 10;
-	char color_vals[numColours][10] = {
-		"cyan", "blue", "orange", "yellow", "green",
-		"red", "purple", "brown", "white", "black", 
-	};
+  // Set up colours.
+  XColor xcolour;
+  Colormap cmap;
+  char color_vals[10][10] = {
+    "magenta",
+    "blue",
+    "cyan",
+    "yellow",
+    "purple",
+    "red",
+    "green",
+    "brown",
+    "white",
+    "grey"
+  };
 
-	cmap = DefaultColormap(d, DefaultScreen(d));
-	
-	for(unsigned int i = 0; i < numColours; ++i) {
-		XParseColor(d, cmap, color_vals[i], &xcolour);
-		XAllocColor(d, cmap, &xcolour);
-		colours[i] = xcolour.pixel;
-	}
+  cmap = DefaultColormap(d, DefaultScreen(d));
 
-	XSetForeground(d, gc, colours[Black]);
+  for (unsigned int i = 0; i < 10; ++i) {
+    XParseColor(d, cmap, color_vals[i], & xcolour);
+    XAllocColor(d, cmap, & xcolour);
+    colours[i] = xcolour.pixel;
+  }
 
-	 // Make window non-resizeable.
-	XSizeHints hints;
-	hints.flags = (USPosition | PSize | PMinSize | PMaxSize );
-	hints.height = hints.base_height = hints.min_height = hints.max_height = height;
-	hints.width = hints.base_width = hints.min_width = hints.max_width = width;
-	XSetNormalHints(d, w, &hints);
-
-	// map window and flush
-	XMapRaised(d, w);
-	XFlush(d);
-	
-	// wait 1 second for setup
-	sleep(1);
+  XSetForeground(d, gc, colours[Black]);
+  XSizeHints hints;
+  hints.flags = (USPosition | PSize | PMinSize | PMaxSize);
+  hints.height = hints.base_height = hints.min_height = hints.max_height = height;
+  hints.width = hints.base_width = hints.min_width = hints.max_width = width;
+  XSetNormalHints(d, w, & hints);
+  XMapRaised(d, w);
+  XFlush(d);
+  sleep((2 - 0.75));
 }
 
 Xwindow::~Xwindow() {
-	XFreeGC(d, gc);
-	XCloseDisplay(d);
+  XFreeGC(d, gc);
+  XCloseDisplay(d);
 }
 
 void Xwindow::fillRectangle(int x, int y, int width, int height, int colour) {
-	XSetForeground(d, gc, colours[colour]);
-	XFillRectangle(d, w, gc, x, y, width, height);
-	XFlush(d);
+  XSetForeground(d, gc, colours[colour]);
+  XFillRectangle(d, w, gc, x, y, width, height);
+  XFlush(d);
 }
 
 void Xwindow::drawString(int x, int y, string msg) {
-	XDrawString(d, w, DefaultGC(d, s), x, y, msg.c_str(), msg.length());
-	XFlush(d);
+  XDrawString(d, w, DefaultGC(d, s), x, y, msg.c_str(), msg.length());
+  XFlush(d);
 }

@@ -729,7 +729,7 @@ int Manager::play(int c, char * v[]) {
             if (theGridTwo -> getDead()) {
               cout << "Game over! Player 1 won!" << endl;
               if (graphicSwitch) {
-                gd -> displayWinner(1);
+                gd -> winnerWho(1);
               }
               delete gd;
               return 0;
@@ -742,7 +742,7 @@ int Manager::play(int c, char * v[]) {
             if (theGridOne -> getDead()) {
               cout << "Game over! Player 2 won!" << endl;
               if (graphicSwitch) {
-                gd -> displayWinner(2);
+                gd -> winnerWho(2);
               }
               delete gd;
               return 0;
@@ -815,14 +815,14 @@ int Manager::play(int c, char * v[]) {
       if (count % 2 == 0) {
         cout << "Game over! Player 2 won!" << endl;
         if (graphicSwitch) {
-          gd -> displayWinner(2);
+          gd -> winnerWho(2);
         }
         delete gd;
         return 0;
       } else {
         cout << "Game over! Player 1 won!" << endl;
         if (graphicSwitch) {
-          gd -> displayWinner(1);
+          gd -> winnerWho(1);
         }
         delete gd;
         return 0;
