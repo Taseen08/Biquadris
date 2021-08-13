@@ -4,7 +4,6 @@
 #include <X11/Xlib.h>
 
 #include <string>
-//
 
 #include <iostream>
 
