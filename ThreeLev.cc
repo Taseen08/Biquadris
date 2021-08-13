@@ -16,6 +16,7 @@ ThreeLev::ThreeLev(bool random, std::string source) {
   this -> selfLevel = 3;
   this -> random = random;
   this -> source = source;
+  this->same = 0;
 }
 
 void ThreeLev::getOldBlocks() {
@@ -82,6 +83,13 @@ bool ThreeLev::randomCheck() {
 
 std::string ThreeLev::getInputFile() {
   return this -> source;
+}
+
+void ThreeLev::toggleSame() {
+  this->same += 1;
+}
+void ThreeLev::setSame(int same) {
+  this->same = same;
 }
 
 ThreeLev::~ThreeLev() {}

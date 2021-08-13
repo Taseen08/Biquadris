@@ -103,11 +103,10 @@ void Operations::removeLines(Grid & theGrid) {
   Block * current = theGrid.current;
   if (theGrid.lyingBlocks[s - 1][0].getLevelGen() == 4) {
     if (current -> whichBlock() != '*') {
-      static_cast < FourLev * > (theGrid.current) -> toggleSame();
+      theGrid.currentLevel->toggleSame();
     } else {
-      static_cast < FourLev * > (theGrid.current) -> setSame(0);
+      theGrid.currentLevel->setSame(0);
     }
-  } // level 4 stuff
 
   int removedLines = 0;
 
@@ -191,7 +190,7 @@ void Operations::removeLines(Grid & theGrid) {
 
     // level 4
     if (theGrid.level == 4) {
-      static_cast < FourLev * > (theGrid.current) -> setSame(0);
+      theGrid.currentLevel->setSame(0);
     }
 
   }
@@ -202,4 +201,4 @@ void Operations::removeLines(Grid & theGrid) {
 
   delete theGrid.current;
 
-}
+}}

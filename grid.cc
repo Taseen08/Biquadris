@@ -223,7 +223,7 @@ void Grid::reset() {
   // Level 4 stuff
 
   if (this -> level == 4) {
-    static_cast<FourLev*>(this->current)->setSame(0);
+    this->currentLevel->setSame(0);
   }
 
   delete this -> current;

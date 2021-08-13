@@ -18,6 +18,7 @@ OneLev::OneLev(bool random, std::string source) {
   this -> random = random;
   this -> source = source;
   this -> selfLevel = 1;
+  this->same = 0;
 }
 
 void OneLev::getOldBlocks() {
@@ -89,5 +90,13 @@ bool OneLev::randomCheck() {
 std::string OneLev::getInputFile() {
   return this -> source;
 }
+
+void OneLev::toggleSame() {
+  this->same += 1;
+}
+void OneLev::setSame(int same) {
+  this->same = same;
+}
+
 
 OneLev::~OneLev() {}

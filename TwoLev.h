@@ -16,6 +16,7 @@ class TwoLev: public Level {
   std::ifstream inputFile;
   bool random = true;
   std::string source;
+  int same;
   public:
     TwoLev(bool random, std::string source = "");
   void getOldBlocks() override;
@@ -23,6 +24,8 @@ class TwoLev: public Level {
   int getLevel() override;
   bool randomCheck() override;
   std::string getInputFile() override;
+  void setSame(int same) override; // setStreak
+  void toggleSame() override; // IncreaseStreak
   ~TwoLev() override;
 };
 #endif

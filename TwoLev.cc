@@ -17,6 +17,7 @@ TwoLev::TwoLev(bool random, std::string source) {
   this -> selfLevel = 2;
   this -> random = random;
   this -> source = source;
+  this->same = 0;
 }
 
 void TwoLev::getOldBlocks() {
@@ -83,6 +84,13 @@ bool TwoLev::randomCheck() {
 
 std::string TwoLev::getInputFile() {
   return this -> source;
+}
+
+void TwoLev::toggleSame() {
+  this->same += 1;
+}
+void TwoLev::setSame(int same) {
+  this->same = same;
 }
 
 TwoLev::~TwoLev() {}

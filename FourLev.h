@@ -22,10 +22,10 @@ class FourLev: public Level {
   void getOldBlocks() override;
   Block * NextBlock(int pos) override;
   int getLevel() override;
-  void setSame(int same); // setStreak
-  void toggleSame(); // IncreaseStreak
   bool randomCheck() override;
   std::string getInputFile() override;
+  void setSame(int same) override; // setStreak
+  void toggleSame() override; // IncreaseStreak
   ~FourLev() override;
 };
 #endif

@@ -11,6 +11,7 @@
 ZeroLev::ZeroLev(std::string source) {
   this -> selfLevel = 0;
   this -> source = source;
+  this->same = 0;
 }
 
 Block * ZeroLev::NextBlock(int loc) {
@@ -58,6 +59,13 @@ std::string ZeroLev::getInputFile() {
 
 bool ZeroLev::randomCheck() {
   return false;
+}
+
+void ZeroLev::toggleSame() {
+  this->same += 1;
+}
+void ZeroLev::setSame(int same) {
+  this->same = same;
 }
 
 ZeroLev::~ZeroLev() {}

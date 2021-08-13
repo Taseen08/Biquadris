@@ -33,6 +33,8 @@ class Level {
   virtual std::string getInputFile() = 0;
   virtual void getOldBlocks() = 0;
   virtual Block * NextBlock(int loc) = 0;
+  virtual void setSame(int same) = 0; 
+  virtual void toggleSame() = 0;
   virtual~Level();
 
 };
