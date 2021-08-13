@@ -162,12 +162,7 @@ int Manager::play(int c, char * v[]) {
   shared_ptr < SpecialAction > sa1(theGridOne);
   theGridTwo = new Grid(width, height, level_initial, playerTwo);
   shared_ptr < SpecialAction > sa2(theGridTwo);
-  TextDisplay td {
-    width,
-    height,
-    theGridOne,
-    theGridTwo
-  };
+  TextDisplay td {width,height,theGridOne,theGridTwo};
   GraphicsDisplay * gd = nullptr;
   theGridOne -> setObserver( & td);
   theGridTwo -> setObserver( & td);
@@ -742,10 +737,7 @@ int Manager::play(int c, char * v[]) {
             break;
           } else {
             theGridOne -> setForce(true);
-            sa1.reset(new Force {
-              sa1,
-              b
-            });
+            sa1.reset(new Force {sa1,b});
             sa1 -> execute( * theGridOne);
             if (theGridOne -> getDead()) {
               cout << "Game over! Player 2 won!" << endl;
@@ -767,9 +759,7 @@ int Manager::play(int c, char * v[]) {
             break;
           } else {
             theGridOne -> setBlind(true);
-            sa1.reset(new Blind {
-              sa1
-            });
+            sa1.reset(new Blind {sa1});
             sa1 -> execute( * theGridOne);
             break;
           }

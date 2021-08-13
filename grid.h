@@ -21,6 +21,8 @@
 
 #include "Operations.h"
 
+#include "specialaction.h"
+
 class TextDisplay;
 class laidBlocks;
 class Operations;
