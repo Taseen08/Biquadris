@@ -70,7 +70,7 @@ Manager::~Manager() {
 
 int Manager::play(int c, char * v[]) {
 
-  srand(2); // should change to something else
+  srand(1234);
   Operations all_operations;
   int width = 11; //main
   int height = 18; // main
@@ -344,8 +344,8 @@ int Manager::play(int c, char * v[]) {
       if (cmd == "counterclockwise") {
         //rotate counterclockwise mult times
         for (int i = 0; i < mult; i++) {
-          if (all_operations.isValid( * theGrid, 0, 0, -1)) {
-            all_operations.moveBlock( * theGrid, 0, 0, -1);
+          if (all_operations.isValid( * theGrid, 0, 0, 1)) {
+            all_operations.moveBlock( * theGrid, 0, 0, 1);
           } else {
             break;
           }

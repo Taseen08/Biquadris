@@ -20,7 +20,6 @@
 #include "observer.h"
 #include "specialaction.h"
 #include "Operations.h"
-
 #include "specialaction.h"
 
 class TextDisplay;
