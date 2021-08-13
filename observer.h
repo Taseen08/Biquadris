@@ -5,10 +5,10 @@ class Cell;
 class Grid;
 
 class Observer {
-	public:
-		virtual void notify(Grid &who) = 0;
-		virtual void notify(Cell &who) = 0;
-		virtual ~Observer();
+  public:
+    virtual void notify(Grid & who) = 0;
+  virtual void notify(Cell & who) = 0;
+  virtual~Observer();
 };
 
 #endif
