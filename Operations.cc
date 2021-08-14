@@ -125,7 +125,7 @@ void Operations::removeLines(Grid & theGrid) {
         int moveVal = current -> getY() + r;
 
         for (int i = theGrid.lyingBlocks.size() - 1; i >= 0; --i) {
-          bool canRemove = false;
+          bool canRemove = true;
 
           for (int j = 0; j < 4; ++j) {
             if (theGrid.lyingBlocks[i][j].getCoord() == moveVal) {
