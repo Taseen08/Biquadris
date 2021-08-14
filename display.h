@@ -1,5 +1,5 @@
-#ifndef __WINDOW_H__
-#define __WINDOW_H__
+#ifndef __DISPLAY_H__
+#define __DISPLAY_H__
 
 #include <X11/Xlib.h>
 

@@ -10,7 +10,7 @@
 
 #include <unistd.h>
 
-#include "window.h"
+#include "display.h"
 
 using namespace std;
 
@@ -71,10 +71,10 @@ Xwindow::Xwindow(int width, int height) {
   sleep((2 - 0.75));
 }
 
-Xwindow::~Xwindow() {
-  XFreeGC(d, gc);
-  XCloseDisplay(d);
-}
+void Xwindow::drawString(int x, int y, string msg) {
+  XDrawString(d, w, DefaultGC(d, s), x, y, msg.c_str(), msg.length());
+  XFlush(d);
+} 
 
 void Xwindow::fillRectangle(int x, int y, int width, int height, int colour) {
   XSetForeground(d, gc, colours[colour]);
@@ -82,7 +82,11 @@ void Xwindow::fillRectangle(int x, int y, int width, int height, int colour) {
   XFlush(d);
 }
 
-void Xwindow::drawString(int x, int y, string msg) {
-  XDrawString(d, w, DefaultGC(d, s), x, y, msg.c_str(), msg.length());
-  XFlush(d);
+ 
+Xwindow::~Xwindow() {
+  XFreeGC(d, gc);
+  XCloseDisplay(d);
 }
+
+
+

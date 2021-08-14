@@ -5,7 +5,7 @@
 
 #include "observer.h"
 
-#include "window.h"
+#include "display.h"
 
 #include <string>
 
@@ -20,16 +20,20 @@ class GraphicsDisplay: public Observer {
   Grid * g1;
   Grid * g2;
   Xwindow xw;
+  int dist1;
+  int dist2;
+  int mainB;
+  int gridGap;
 
   public:
     GraphicsDisplay(int cw, int ww, int wh, int gw, int gh, Grid * g1, Grid * g2);
   void init();
+    void undoBlind(Grid * b);
+  void winnerWho(int player);
+  ~GraphicsDisplay();
   void notify(Cell & whoNotified) override;
   void notify(Grid & whoNotified) override;
   void doBlind(int player);
-  void undoBlind(Grid * b);
-  void winnerWho(int player);
-  ~GraphicsDisplay();
 };
 
 #endif
