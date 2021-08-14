@@ -21,8 +21,7 @@ int CommandManager::multiplier(string in ) {
   }
 }
 
-//if input command is ambiguous or wrong, will return error
-//otherwise will return the appropriate command e.g. "left", "right" ......
+//if input command ambiguous or wrong, returns error, else returns appropriate command
 string CommandManager::commandDetector(string in ) {
   int mult;
   stringstream ss;
@@ -47,7 +46,7 @@ string CommandManager::commandDetector(string in ) {
   int count = 0;
   int len = commands.size();
   for (int i = 0; i < len; ++i) {
-    string presentcommand = renamed[i]; // might be removed
+    string presentcommand = renamed[i]; 
     if (isPrefix(presentcommand, command)) {
       count += 1;
       out = commands[i];
@@ -69,7 +68,7 @@ void CommandManager::renamer(string oldcommand, string newcommand) {
       return;
     }
   }
-  // modify the old command to be the new command
+  // modify old command
   for (int i = 0; i < len; ++i) {
     if (renamed[i] == oldcommand) {
       renamed[i] = newcommand;

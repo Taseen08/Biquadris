@@ -95,7 +95,7 @@ Block * Grid::getNextBlock() {
 void Grid::setNextBlock(Block * nextBlock) {
   this -> next = nextBlock;
   this -> fixedNext = true;
-  notifyObservers(); // can set it after or could be modified
+  notifyObservers(); 
 }
 
 Level * Grid::getCurrentLevel() {
@@ -138,7 +138,7 @@ int Grid::getLevel() {
   return this -> level;
 }
 
-void Grid::setBlind(bool blind) { // two blind
+void Grid::setBlind(bool blind) { 
   if (blind) {
     this -> blindOn = true;
     this -> blindOff = false;
@@ -177,7 +177,7 @@ void Grid::setForce(bool force) {
 void Grid::setHighScore(int high) {
   this -> highScore = high;
   this -> hiScoreModified = true;
-  notifyObservers(); // could be modified
+  notifyObservers(); 
 }
 
 int Grid::getHighScore() {
@@ -285,7 +285,7 @@ void Grid::activateCell(int x, int y, char state) {
 }
 
 void Grid::deactivateCell(int x, int y) {
-  this -> mainGrid[x][y].setState(' '); // shady
+  this -> mainGrid[x][y].setState(' '); 
 }
 
 void Grid::execute(Grid & grid){

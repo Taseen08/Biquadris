@@ -14,7 +14,7 @@ void Heavy::execute(Grid & gd) {
   SA -> execute(gd);
 
   if (gd.isHeavy()) {
-    //Set the current block to have the special effect heavy
+    // Set the current block to have the special effect heavy
     gd.getCurrentBlock() -> setEffectHeavy(true);
   }
 }

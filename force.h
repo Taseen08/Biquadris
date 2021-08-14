@@ -10,7 +10,7 @@
 using namespace std;
 
 class Force: public Decorator {
-  // the block that will be forced
+  // the block to be forced
   char theBlock;
   public:
     Force(shared_ptr < SpecialAction > SA, char theBlock);

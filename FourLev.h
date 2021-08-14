@@ -13,7 +13,7 @@
 
 class FourLev: public Level {
   int selfLevel;
-  int same; // streak
+  int same; 
   std::ifstream inputFile;
   bool random = true;
   std::string source;
@@ -24,8 +24,8 @@ class FourLev: public Level {
   int getLevel() override;
   bool randomCheck() override;
   std::string getInputFile() override;
-  void setSame(int same) override; // setStreak
-  void toggleSame() override; // IncreaseStreak
+  void setSame(int same) override; 
+  void toggleSame() override; 
   ~FourLev() override;
 };
 #endif

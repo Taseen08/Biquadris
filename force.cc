@@ -15,11 +15,11 @@ Force::Force(shared_ptr < SpecialAction > SA, char theBlock): Decorator {
 } {}
 
 void Force::execute(Grid & gd) {
-  //Apply the effect to the board
+  // Apply effect to board
   SA -> execute(gd);
 
   if (gd.isForce()) {
-    //Match heavy to level
+    // Match heavy to level
     Operations all_operations;
     bool heavy = false;
     if (gd.getLevel() == 3 || gd.getLevel() == 4) {

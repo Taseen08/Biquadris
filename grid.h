@@ -43,7 +43,6 @@ class Grid: public Subject, public SpecialAction {
   Level * currentLevel;
   bool dead;
   bool effect;
-  // notification attr missing // added 
 
   public:
     Grid(int width, int height, int level, int player);
@@ -54,21 +53,20 @@ class Grid: public Subject, public SpecialAction {
   bool pointsModified = false;
   bool levelModified = false;
   bool hiScoreModified = false;
-  bool blindOn = false; // why two blind bool (below)
+  bool blindOn = false; 
   bool blindOff = false;
   void setFixedNext(bool booleanVal);
   void setPointsModified(bool booleanVal);
   void setLevelModified(bool booleanVal);
   void setHiScoreModified(bool booleanVal);
-  void setBlindOn(bool booleanVal); // why two blind
-  void setBlindOff(bool booleanVal);
-  int getScore() const;
   void setObserver(Observer * ob);
   void notifyObservers() override;
-  void activateCell(int x, int y, char state); // setPiece
-  void deactivateCell(int x, int y); // unsetPiece
-  void findLyingBlock(int lev); // restBlock
-  // void deactivateBlock();
+  void activateCell(int x, int y, char state); 
+  void deactivateCell(int x, int y); 
+  void findLyingBlock(int lev); 
+  void setBlindOn(bool booleanVal); 
+  void setBlindOff(bool booleanVal);
+  int getScore() const;
   void reset();
   void setCurrentBlock(Block * currentBlock);
   void setNextBlock(Block * nextBlock);
@@ -76,22 +74,21 @@ class Grid: public Subject, public SpecialAction {
   Block * getNextBlock();
   Level * getCurrentLevel();
   int getLevel();
-  void deactivateBlock(); // unsetBlock
+  void deactivateBlock(); 
   void setCurrentLevel(int level, bool random, string file = "");
   int getPlayer();
   bool isBlind() const;
   void setBlind(bool blind);
   bool isHeavy() const;
   void setHeavy(bool heavy);
-  bool isForce() const; //returns whether board has force active
-  void setForce(bool force); //sets whether board has force active
-  bool isEffect() const; //returns whether effect is needed
-  void setEffect(bool effectNeeded); //sets whether effect is needed
+  bool isForce() const; 
+  void setForce(bool force); 
+  bool isEffect() const; 
+  void setEffect(bool effectNeeded); 
   int getHighScore();
   void setHighScore(int highScore);
-  void setDead(bool dead); //sets whether player is dead
-  bool getDead(); //returns whether player is dead
-  // special action
+  void setDead(bool dead); 
+  bool getDead(); // returns if player is dead
   void execute(Grid &grid) override;
   const std::vector < std::vector < Cell > > & getGrid();
   friend class Operations;

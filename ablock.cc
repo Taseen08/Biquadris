@@ -8,7 +8,7 @@
 
 using namespace std;
 
-ablock::ablock(bool heavy): Block(0, 0, 0, heavy, false) {}
+ablock::ablock(bool heavy): Block(5, 0, 0, heavy, false) {}
 
 char ablock::whichBlock() {
   return '*';

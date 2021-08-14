@@ -15,8 +15,6 @@ Cell::Cell(int x, int y, Grid * mainBoard, bool occupied, char state) {
 }
 
 void Cell::notifyObservers() {
-  // for (auto &o:observers) o->notify(*this);
-
   for (int i = 0; i < this -> observers.size(); ++i) {
     this -> observers[i] -> notify( * this);
   }
@@ -49,7 +47,7 @@ char Cell::getState() const {
 void Cell::setState(char myState) {
   this -> state = myState;
   this -> occupied = true;
-  this -> notifyObservers(); // maybe call it after the function 
+  this -> notifyObservers();
 }
 
 void Cell::unsetState() {

@@ -62,11 +62,7 @@ Manager::Manager(Grid * theGridOne, Grid * theGridTwo, CommandManager * ComManag
 
 }
 
-Manager::~Manager() {
-  // delete this->ComManage;
-  // delete this->theGridOne;
-  // delete this->theGridTwo;
-}
+Manager::~Manager() {}
 
 int Manager::play(int c, char * v[]) {
 
@@ -92,8 +88,8 @@ int Manager::play(int c, char * v[]) {
   int displayW = space + (border * 2) + (width * 2);
   int displayH = (border * 3) + height;
 
-  // Command line interface functionality
-  for (int i = 1; i < c; i++) { // for loop to while might be done
+  // CLI functionality
+  for (int i = 1; i < c; i++) { 
 
     string cmd = v[i];
 
@@ -114,24 +110,24 @@ int Manager::play(int c, char * v[]) {
       string xxx = v[i + 1];
       ifstream test(xxx);
 
-      // see if the file is readable or exists
+      // see if file is readable or exists
       if (!test.good()) {
         cerr << "ERROR! " << xxx << " File not readable or does not exist." << endl;
         return 1;
       } else {
-        L0_player1 = xxx; // file works
+        L0_player1 = xxx;
       }
 
     } else if (cmd == "-scriptfile2") {
       string xxx = v[i + 1];
       ifstream test(xxx);
 
-      // see if the file is readable or exists
+      // see if file is readable or exists
       if (!test.good()) {
         cerr << "ERROR! " << xxx << " File not readable or does not exist." << endl;
         return 1;
       } else {
-        L0_player2 = xxx; // file works 
+        L0_player2 = xxx; 
       }
     } else if (cmd == "-startlevel") {
       string xxx = v[i + 1];
@@ -142,7 +138,7 @@ int Manager::play(int c, char * v[]) {
         return 1;
       }
 
-      //adjust the level n to the valid range 0-4
+      // make level valid
       if (level_initial < 0) {
         level_initial = 0;
         cout << "Adjusting the level n to be the lowest within range." << endl;
@@ -156,8 +152,7 @@ int Manager::play(int c, char * v[]) {
     i++;
   }
 
-  // Setup
-
+  // initial setup
   theGridOne = new Grid(width, height, level_initial, playerOne);
   shared_ptr < SpecialAction > sa1(theGridOne);
   theGridTwo = new Grid(width, height, level_initial, playerTwo);
