@@ -17,7 +17,15 @@
 void Operations::moveBlock(Grid & theGrid, int x, int y, int rotation) {
   theGrid.deactivateBlock();
 
-  int degree = (theGrid.current -> getRotate() + rotation) % 4;
+  //int degree = (theGrid.current -> getRotate() + rotation) % 4;
+  int degree;
+  if (rotation < 0){
+    degree = (theGrid.current -> getRotate() + rotation + 4) % 4;
+  }
+  else {
+    degree = (theGrid.current -> getRotate() + rotation) % 4;
+  }
+
 
   for (int r = 0; r < 4; ++r) {
     for (int c = 0; c < 4; ++c) {
@@ -64,7 +72,14 @@ bool Operations::isValid(Grid & theGrid, int x, int y, int rotation) {
     return true;
   }
 
-  int rotate = (theGrid.current -> getRotate() + rotation) % 4;
+  //int rotate = (theGrid.current -> getRotate() + rotation) % 4;
+  int rotate;
+  if (rotation < 0) {
+    rotate = (theGrid.current->getRotate() + rotation + 4)%4;
+  }
+  else {
+    rotate = (theGrid.current->getRotate() + rotation)%4;
+  }
 
   for (int r = 0; r < 4; ++r) {
     for (int c = 0; c < 4; ++c) {
