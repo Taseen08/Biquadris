@@ -125,7 +125,7 @@ void Operations::removeLines(Grid & theGrid) {
         int moveVal = current -> getY() + r;
 
         for (int i = theGrid.lyingBlocks.size() - 1; i >= 0; --i) {
-          bool canRemove = false;
+          bool canRemove = true;
 
           for (int j = 0; j < 4; ++j) {
             if (theGrid.lyingBlocks[i][j].getCoord() == moveVal) {
@@ -142,8 +142,9 @@ void Operations::removeLines(Grid & theGrid) {
           }
 
           if (canRemove == true) {
-            int level = theGrid.lyingBlocks[i][0].getLevelGen();
-            theGrid.score += (1 + level) * (1 + level);
+            int compute = theGrid.lyingBlocks[i][0].getLevelGen();
+            theGrid.score += (1 + compute) * (1 + compute);
+      
             theGrid.setPointsModified(true);
             theGrid.notifyObservers();
             theGrid.lyingBlocks.erase(theGrid.lyingBlocks.begin() + i);
@@ -172,7 +173,7 @@ void Operations::removeLines(Grid & theGrid) {
 
   if (removedLines > 0) {
 
-    for (int row = 0; row < s; ++row) {
+    for (int row = 0; row < theGrid.lyingBlocks.size(); ++row) {
       for (int col = 0; col < 4; ++col) {
         theGrid.mainGrid[row][col].setY(theGrid.lyingBlocks[row][col].getCoord() + removedLines);
         if (theGrid.lyingBlocks[row].size() == 1) {
@@ -182,6 +183,7 @@ void Operations::removeLines(Grid & theGrid) {
     }
 
     theGrid.score += (theGrid.level + removedLines) * (theGrid.level + removedLines);
+    // notifications.scoreChanged = true;
     theGrid.setPointsModified(true);
 
     theGrid.notifyObservers();
