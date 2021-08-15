@@ -76,10 +76,10 @@ int Manager::play(int c, char * v[]) {
   int count = -1;
   int playerOne = 1;
   int playerTwo = 2;
+  int highestScore = 0;
   string L0_player1 = "sequence1.txt";
   string L0_player2 = "sequence2.txt";
-  int highestScore = 0;
-
+  
   // Graphics stuff
   bool graphicSwitch = true;
   int space = 8;
@@ -168,8 +168,6 @@ int Manager::play(int c, char * v[]) {
   int drops = 0;
   vector < string > comList;
 
-  // documentation
-
   if (level_initial > 0) {
     theGridOne -> setCurrentLevel(level_initial, true);
     theGridTwo -> setCurrentLevel(level_initial, true);
@@ -178,7 +176,7 @@ int Manager::play(int c, char * v[]) {
     theGridTwo -> setCurrentLevel(level_initial, false, L0_player2);
   }
 
-  // Output graphic display if the graphic is switched on
+  // graphics if graphics on
   if (graphicSwitch) {
     gd = new GraphicsDisplay(cellWidth, displayW, displayH,
       width, height, theGridOne, theGridTwo);
@@ -195,7 +193,7 @@ int Manager::play(int c, char * v[]) {
   all_operations.moveBlock( * theGridOne, 0, 0, 0);
   all_operations.moveBlock( * theGridTwo, 0, 0, 0);
 
-  // Play
+  // Play 
   while (true) {
 
     bool restart = false;
@@ -213,9 +211,9 @@ int Manager::play(int c, char * v[]) {
     }
 
     while (true) {
-      // multiple drops
+      // more than 1 drop
       if (drops > 0) {
-        // keep dropping consecutive blocks until 0 drops left
+        // keep dropping consecutive blocks until no drop left
         while (all_operations.isValid( * theGrid, 0, 1, 0)) {
           all_operations.moveBlock( * theGrid, 0, 1, 0);
         }

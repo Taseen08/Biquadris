@@ -95,7 +95,7 @@ Block * Grid::getNextBlock() {
 void Grid::setNextBlock(Block * nextBlock) {
   this -> next = nextBlock;
   this -> fixedNext = true;
-  notifyObservers(); 
+  notifyObservers(); // can set it after or could be modified
 }
 
 Level * Grid::getCurrentLevel() {
@@ -138,7 +138,7 @@ int Grid::getLevel() {
   return this -> level;
 }
 
-void Grid::setBlind(bool blind) { 
+void Grid::setBlind(bool blind) { // two blind
   if (blind) {
     this -> blindOn = true;
     this -> blindOff = false;
@@ -177,7 +177,7 @@ void Grid::setForce(bool force) {
 void Grid::setHighScore(int high) {
   this -> highScore = high;
   this -> hiScoreModified = true;
-  notifyObservers(); 
+  notifyObservers(); // could be modified
 }
 
 int Grid::getHighScore() {

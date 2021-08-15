@@ -142,9 +142,9 @@ void Operations::removeLines(Grid & theGrid) {
           }
 
           if (canRemove == true) {
-            int level = theGrid.lyingBlocks[i][0].getLevelGen();
-            theGrid.score += (1 + level) * (1 + level);
-            // theGrid.notifications.scoreChanged = true;
+            int compute = theGrid.lyingBlocks[i][0].getLevelGen();
+            theGrid.score += (1 + compute) * (1 + compute);
+      
             theGrid.setPointsModified(true);
             theGrid.notifyObservers();
             theGrid.lyingBlocks.erase(theGrid.lyingBlocks.begin() + i);
@@ -173,7 +173,7 @@ void Operations::removeLines(Grid & theGrid) {
 
   if (removedLines > 0) {
 
-    for (int row = 0; row < s; ++row) {
+    for (int row = 0; row < theGrid.lyingBlocks.size(); ++row) {
       for (int col = 0; col < 4; ++col) {
         theGrid.mainGrid[row][col].setY(theGrid.lyingBlocks[row][col].getCoord() + removedLines);
         if (theGrid.lyingBlocks[row].size() == 1) {

@@ -13,7 +13,7 @@
 
 class ZeroLev: public Level {
   int selfLevel;
-  std::ifstream inputFile; //file that this level could potentially use
+  std::ifstream inputFile; 
   bool random = false;
   std::string source;
   int same;
@@ -24,8 +24,8 @@ class ZeroLev: public Level {
   int getLevel() override;
   bool randomCheck() override;
   std::string getInputFile() override;
-  void setSame(int same) override; // setStreak
-  void toggleSame() override; // IncreaseStreak
+  void setSame(int same) override; 
+  void toggleSame() override; 
   
   ~ZeroLev() override;
 
