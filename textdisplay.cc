@@ -38,7 +38,6 @@ TextDisplay::TextDisplay(int w, int h, Grid * gridOne, Grid * gridTwo):
   }, gridTwo {
     gridTwo
   } {
-    //initialize the board displays
     for (int i = 0; i < h; i++) {
       vector < char > line;
       displayOne.emplace_back(line);
@@ -51,7 +50,7 @@ TextDisplay::TextDisplay(int w, int h, Grid * gridOne, Grid * gridTwo):
     makeReadyNext();
   }
 
-//notify the TextDisplay if a tile has changed
+// notify
 void TextDisplay::notify(Cell & who) {
   char state = who.getState();
   Grid * grid = who.getGrid();
@@ -62,7 +61,7 @@ void TextDisplay::notify(Cell & who) {
 // blinds
 void TextDisplay::blind(int player, ostream & out) const {
   string spaceBetweenBoards;
-  for (size_t i = 0; i < 8; i++) {
+  for (int i = 0; i <= 7; i++) {
     spaceBetweenBoards += " ";
   }
   vector < vector < char >> cd;
@@ -100,7 +99,7 @@ void TextDisplay::blind(int player, ostream & out) const {
 }
 
 
-//notify the TextDisplay if a nextBlock has been set
+//notify if next block set
 void TextDisplay::notify(Grid & who) {
   if (who.fixedNext) {
     int p = who.getPlayer();
@@ -108,11 +107,11 @@ void TextDisplay::notify(Grid & who) {
   }
 }
 
-//takes in two block pointers and prints them in the preview section
+// updates next block
 void TextDisplay::modifyNext(Block * nextBlock, int player) {
-  //if the block is a * block, ignore it
-  if (nextBlock -> whichBlock() == '*') return;
-  //clear the preview before we do anything
+  if (nextBlock -> whichBlock() == '*') {
+    return;
+  }
   int total = 8;
   for (int i = 0; i < total; i++) {
     if (player == 1) {
@@ -131,35 +130,6 @@ void TextDisplay::modifyNext(Block * nextBlock, int player) {
   }
 }
 
-//prints the two previews for the nextblock
-void TextDisplay::showDisplay(ostream & out) const {
-  string beforeGap;
-  string afterGap;
-  for (int i = 0; i < (w + 4); i++) {
-    beforeGap += " ";
-  }
-  for (int i = 0; i < (w + 3); i++) {
-    afterGap += " ";
-  }
-  out << "Next:" << afterGap << "Next:" << endl; // below loops can be combined
-  for (int i = 0; i < 4; i++) {
-    out << stateOne[i];
-  }
-  out << beforeGap;
-  for (int i = 0; i < 4; i++) {
-    out << stateTwo[i];
-  }
-  out << endl;
-  for (int i = 4; i < 8; i++) {
-    out << stateOne[i];
-  }
-  out << beforeGap;
-  for (int i = 4; i < 8; i++) {
-    out << stateTwo[i];
-  }
-  out << endl;
-}
-
 void implementGap(ostream & out, int val) {
   string s = "";
   for (int i = 0; i < val - 1; i++) {
@@ -169,7 +139,6 @@ void implementGap(ostream & out, int val) {
   out << s;
 }
 
-//overloaded ostream operator for TextDisplay
 ostream & operator << (ostream & out,
   const TextDisplay & td) {
   int s = (((td.w * 2) + 8) - (8 * 2)) / 2;
@@ -177,21 +146,19 @@ ostream & operator << (ostream & out,
   string gapHiscore = "";
   string dashedLine = "";
   for (int i = 0; i < 8; i++) {
-    gapGrids.append(" "); // can use +=?
+    gapGrids.append(" "); 
   }
   for (int i = 0; i < s; i++) {
-    gapHiscore.append(" "); // can use +=?
+    gapHiscore.append(" "); 
   }
-  //initialization of the divider and the space between the two boards
   for (int i = 0; i < td.w; i++) {
     dashedLine += "-";
   }
-  //Print out the High Score at the top
   out << endl;
+  // high score and header info
   out << gapHiscore << "High Score:";
   implementGap(out, 5);
   out << td.gridOne -> getHighScore() << gapHiscore << endl;
-  //Printing the header information
   out << "Level:";
   implementGap(out, 5);
   out << td.gridOne -> getLevel() << gapGrids;
@@ -205,7 +172,6 @@ ostream & operator << (ostream & out,
   implementGap(out, 5);
   out << td.gridTwo -> getScore() << endl;
   out << dashedLine << gapGrids << dashedLine << endl;
-  //Printing the two boards and their contents
   if (td.gridOne -> isBlind()) {
     td.blind(1, out);
   } else if (td.gridTwo -> isBlind()) {
@@ -223,10 +189,41 @@ ostream & operator << (ostream & out,
     }
   }
   out << dashedLine << gapGrids << dashedLine << endl;
-  //Printing the preview section
   td.showDisplay(out);
   out << endl;
   return out;
 }
 
+// shows next blocks
+void TextDisplay::showDisplay(ostream & out) const {
+  string beforeGap;
+  string afterGap;
+  for (int i = 0; i < (w + 4); i++) {
+    beforeGap += " ";
+  }
+  for (int i = 0; i < (w + 3); i++) {
+    afterGap += " ";
+  }
+  out << "Next:" << afterGap << "Next:" << endl;
+  for (int i = 0; i < 4; i++) {
+    out << stateOne[i];
+  }
+  out << beforeGap;
+  for (int i = 0; i < 4; i++) {
+    out << stateTwo[i];
+  }
+  out << endl;
+  for (int i = 4; i < 8; i++) {
+    out << stateOne[i];
+  }
+  out << beforeGap;
+  for (int i = 4; i < 8; i++) {
+    out << stateTwo[i];
+  }
+  out << endl;
+}
+
 TextDisplay::~TextDisplay() {}
+
+
+

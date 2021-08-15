@@ -24,8 +24,8 @@ class TwoLev: public Level {
   int getLevel() override;
   bool randomCheck() override;
   std::string getInputFile() override;
-  void setSame(int same) override; // setStreak
-  void toggleSame() override; // IncreaseStreak
+  void setSame(int same) override; 
+  void toggleSame() override; 
   ~TwoLev() override;
 };
 #endif

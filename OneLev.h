@@ -13,7 +13,7 @@
 
 class OneLev: public Level {
   int selfLevel;
-  std::ifstream inputFile; //file that this level could potentially use
+  std::ifstream inputFile; 
   bool random = true;
   std::string source;
   int same;
@@ -24,8 +24,8 @@ class OneLev: public Level {
   int getLevel() override;
   bool randomCheck() override;
   std::string getInputFile() override;
-  void setSame(int same) override; // setStreak
-  void toggleSame() override; // IncreaseStreak
+  void setSame(int same) override; 
+  void toggleSame() override; 
   ~OneLev() override;
 };
 
