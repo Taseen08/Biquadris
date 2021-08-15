@@ -90,7 +90,7 @@ int Manager::play(int c, char * v[]) {
 
   // CLI functionality
   for (int i = 1; i < c; i++) { 
-
+    
     string cmd = v[i];
 
     if (cmd == "-text") {
@@ -337,8 +337,8 @@ int Manager::play(int c, char * v[]) {
       if (cmd == "counterclockwise") {
         //rotate counterclockwise mult times
         for (int i = 0; i < mult; i++) {
-          if (all_operations.isValid( * theGrid, 0, 0, 1)) {
-            all_operations.moveBlock( * theGrid, 0, 0, 1);
+          if (all_operations.isValid( * theGrid, 0, 0, -1)) {
+            all_operations.moveBlock( * theGrid, 0, 0, -1);
           } else {
             break;
           }

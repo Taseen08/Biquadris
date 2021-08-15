@@ -14,10 +14,10 @@
 
 #include <iostream>
 
+#include <iostream>
+
 void Operations::moveBlock(Grid & theGrid, int x, int y, int rotation) {
   theGrid.deactivateBlock();
-
-  //int degree = (theGrid.current -> getRotate() + rotation) % 4;
   int degree;
   if (rotation < 0){
     degree = (theGrid.current -> getRotate() + rotation + 4) % 4;
@@ -45,6 +45,7 @@ void Operations::moveBlock(Grid & theGrid, int x, int y, int rotation) {
   theGrid.current -> setX(newX);
   theGrid.current -> setY(newY);
   theGrid.current -> setRotate(degree);
+  std::cout << "rotate MoveBlock" << theGrid.current->getRotate() << std::endl;
 
 }
 
@@ -71,8 +72,9 @@ bool Operations::isValid(Grid & theGrid, int x, int y, int rotation) {
     }
     return true;
   }
-
-  //int rotate = (theGrid.current -> getRotate() + rotation) % 4;
+  // std::cout << "rotation current" << theGrid.current->getRotate() << std::endl;
+  // std::cout << "getRotate " << theGrid.current->getRotate() << std::endl;
+  // std::cout << "rotatton val " << rotation << std::endl;
   int rotate;
   if (rotation < 0) {
     rotate = (theGrid.current->getRotate() + rotation + 4)%4;
@@ -80,10 +82,19 @@ bool Operations::isValid(Grid & theGrid, int x, int y, int rotation) {
   else {
     rotate = (theGrid.current->getRotate() + rotation)%4;
   }
-
+  // rotate = theGrid.current->getRotate()+rotation%4;
+  // std::cout << "effective rotation " << rotate << std::endl;
+  // std::cout << "exepcted effective rotation " << (-1+4)%4 << std::endl;
+  
   for (int r = 0; r < 4; ++r) {
     for (int c = 0; c < 4; ++c) {
+      
+
       char value = theGrid.current -> getBlock()[rotate][r][c];
+      std::cout << "rotate isValid" << rotate << std::endl;
+      std::cout << "r isValid " << r << std::endl;
+      std::cout << "c isValid " << c << std::endl;
+      
       int bY = theGrid.current -> getY() + y + r;
       int bX = theGrid.current -> getX() + x + c;
 
