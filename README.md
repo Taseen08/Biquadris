@@ -1,2 +1,2 @@
 # Biquadris
-CS246 project
+Duo player tetris game built using C++.
